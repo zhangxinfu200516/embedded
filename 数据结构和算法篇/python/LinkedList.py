@@ -57,6 +57,26 @@ class LinkedList:
             current_node = current_node.next
         print("NULL")
 
+    def append2(self, key_check, key_add):
+        """在链表中间添加节点(条件：至少有两个节点)"""
+        new_node = ListNode(key_add)
+        current_node = self.head
+    
+        # 遍历寻找要添加的位置
+        while current_node.data != key_check:
+    
+            current_node = current_node.next
+        
+        if current_node is None:  # 没找到
+            return
+        
+        # 插入新节点：新节点指向原节点的下一个节点，原节点指向新节点
+        new_node.next = current_node.next  # 重要：先连接新节点到原下一个节点
+        current_node.next = new_node       # 再更新原节点指向新节点
+
+        
+
+
 # 测试链表
 print("=== 单向链表操作演示 ===")
 train = LinkedList()
@@ -70,3 +90,7 @@ train.print_list()  # 输出：车头 -> 车厢1-煤炭 -> 车厢2-木材 -> 车
 train.delete("车厢2-木材")
 print("卸下木材后：")
 train.print_list()  # 输出：车头 -> 车厢1-煤炭 -> 车厢3-钢材 -> NULL
+
+train.append2("车厢1-煤炭","车厢12间存放-混泥土")
+print("添加混凝土后：")
+train.print_list()
