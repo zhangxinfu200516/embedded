@@ -168,6 +168,28 @@ Shell这个单词的原意是 “外壳”，跟kernel（内核）相对应，�
    -  语法：wget [-b] url （后台下载）
  -  curl：发起网络请求
     -  语法：curl [-o] url （-o 用于下载使用） 
+### 压缩和解压类
+  - gzip/gunzip：压缩/解压文件
+    - 基本语法：
+      ```
+      gzip 文件 (只能将文件压缩为*.gz格式)
+      gunzip 文件.gz （解压缩文件命令）
+      ```
+  - zip/unzip：压缩/解压文件
+    - 基本语法：
+      ```
+      zip -r myhome.zip /home/ [将home目录及其包含的文件和子文件夹都压缩]
+      unzip -d /opt/tmp /home/myhome.zip [将myhome.zip解压到/opt/tmp目录下]
+      ```
+  - tar指令
+    - 介绍：tar指令是打包指令，最后打包后的文件是.tar.gz文件。
+    - 基本语法：
+      ```
+      tar -zcvf pc.tar.gz /home/pig.txt /home/dog.txt [将/home/pig.txt和/home/dog.txt打包成pc.tar.gz文件]
+      tar -zcvf myhome.tar.gz /home/ [将/home目录及其包含的文件和子文件夹都打包成myhome.tar.gz文件]
+      tar -zxvf pc.tar.gz [解压pc.tar.gz文件到当前目录]
+      tar -zxvf /home/myhome.tar.gz -C /opt/tmp [将myhome.tar.gz解压到/opt/tmp目录下]
+      ```
 ## Shell脚本
 ### 脚本
   - 脚本格式要求：
@@ -243,3 +265,12 @@ Shell这个单词的原意是 “外壳”，跟kernel（内核）相对应，�
     if [ -f 目录 ]
     ```
     ![alt text](images/image-2.png)
+### 第一个脚本示例
+  - 脚本要求：
+    - 将/home/zxf/shcode目录下的所有文件压缩成tar.gz文件，以当前日期为文件名。
+    - 将压缩后的文件存放在/home/zxf/data目录的以当前日期为目录名的子目录中。
+  - 脚本内容：
+    ```
+    #!/bin/bash
+    
+    ```
