@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+#ifdef MyLinkedList
 struct LinkNode
 {
     int data;
@@ -96,7 +97,7 @@ public:
         index--;
         while (current->next != NULL)
         {
-            if(size == index)
+            if (size == index)
             {
                 LinkNode *temp = current->next;      // 保存要删除的节点
                 current->next = current->next->next; // 删除节点
@@ -112,6 +113,7 @@ public:
     {
         return head; // 返回链表的头节点
     };
+
 protected:
     LinkNode *head = NULL; // 链表的头节点
 };
@@ -121,13 +123,13 @@ int main(int argc, const char **argv)
     MyLinkedList s;
     s.addAtHead(1);
     s.addAtTail(3);
-    s.addAtIndex(1, 2); // 链表变为1->2->3
+    s.addAtIndex(1, 2);       // 链表变为1->2->3
     cout << s.get(1) << endl; // 返回2
-    s.deleteAtIndex(1); // 现在链表是1->3
+    s.deleteAtIndex(1);       // 现在链表是1->3
     cout << s.get(1) << endl; // 返回3
     cout << "-----------------" << endl;
-    LinkNode*current = s.getHead();
-    while(current->next!=NULL)
+    LinkNode *current = s.getHead();
+    while (current->next != NULL)
     {
         cout << current->data << endl;
         current = current->next;
@@ -135,3 +137,132 @@ int main(int argc, const char **argv)
     cout << current->data << endl;
     return 0;
 }
+#endif
+class MyLinkedList
+{
+public:
+    struct LinkNode
+    {
+        int val;
+        LinkNode *next;
+        LinkNode(int _val) : val(_val), next(NULL) {}
+    };
+
+    MyLinkedList()
+    {
+        __dummyHead = new LinkNode(0); // 初始化虚拟头节点
+        size = 0;                      // 初始化真实链表长度
+    }
+
+    int get(int index)
+    {
+        if (index < 0 || index > size - 1)
+            return -1;
+
+        if (size == 0)
+            return NULL;
+
+        LinkNode *cur_node = __dummyHead->next;
+        while (index--)
+        {
+            cur_node = cur_node->next;
+        }
+        return cur_node->val;
+    }
+
+    void addAtHead(int val)
+    {
+        LinkNode *new_node = new LinkNode(val);
+        new_node->next = __dummyHead->next;
+        __dummyHead->next = new_node;
+        size++;
+    }
+
+    void addAtTail(int val)
+    {
+        LinkNode *new_node = new LinkNode(val);
+        LinkNode *cur_node = __dummyHead;
+        while (cur_node->next != NULL) // 已找到尾节点
+        {
+            cur_node = cur_node->next;
+        }
+        cur_node->next = new_node;
+        size++;
+    }
+
+    void addAtIndex(int index, int val)
+    {
+        if (index > size)
+            return;
+        if (index < 0)
+            return addAtHead(val);
+        if (index == size)
+            return addAtTail(val);
+
+        LinkNode *new_node = new LinkNode(val);
+        LinkNode *cur_node = __dummyHead;
+        while (index--)
+        {
+            cur_node = cur_node->next;
+        }
+        new_node->next = cur_node->next;
+        cur_node->next = new_node;
+        size++;
+    }
+
+    void deleteAtIndex(int index)
+    {
+        if (index < 0 || index > size - 1 || size == 0)
+            return;
+
+        LinkNode *cur_node = __dummyHead;
+        while (index--)
+        {
+            cur_node = cur_node->next;
+        }
+        LinkNode *del_node = cur_node->next;
+        cur_node->next = cur_node->next->next;
+        delete del_node;
+        del_node = nullptr;
+        size--;
+    }
+
+    void PrintLinkList()
+    {
+        LinkNode *cur_node = __dummyHead;
+        while(cur_node->next!=NULL)
+        {
+            cout << cur_node->next->val << endl;
+            cur_node = cur_node->next;
+        }
+        cout << "---------------------" << endl;
+    }
+protected:
+    LinkNode *__dummyHead; // 定义虚拟头节点
+    int size;
+};
+int main()
+{
+    MyLinkedList* obj = new MyLinkedList();
+    obj->addAtHead(1);
+    obj->PrintLinkList();
+    obj->addAtTail(3);
+    obj->PrintLinkList();
+    obj->addAtIndex(1,2);
+    obj->PrintLinkList();
+    // obj->get(1);
+    // obj->PrintLinkList();
+    obj->deleteAtIndex(1);
+    obj->PrintLinkList();
+
+}
+
+    /**
+     * Your MyLinkedList object will be instantiated and called as such:
+     * MyLinkedList* obj = new MyLinkedList();
+     * int param_1 = obj->get(index);
+     * obj->addAtHead(val);
+     * obj->addAtTail(val);
+     * obj->addAtIndex(index,val);
+     * obj->deleteAtIndex(index);
+     */
