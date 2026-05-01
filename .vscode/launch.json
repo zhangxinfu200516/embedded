@@ -8,7 +8,7 @@
         "type": "cppdbg",
         "request": "launch",
         // "program": "输入程序名称，例如 ${workspaceFolder}/a.exe",
-        "program": "${fileDirname}\\Mylinkedlist.exe",
+        "program": "${fileDirname}\\hash.exe",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
