@@ -601,3 +601,213 @@ public:
 		return get_height(root) == -1 ? false : true;
 	}
 };
+class Solution
+{
+public:
+	void GetTreePaths(TreeNode *root, vector<int> &record, vector<string> &result)
+	{
+		if (root != nullptr)
+			record.push_back(root->val);
+		// 返回条件
+		if (root->left == nullptr && root->right == nullptr)
+		{
+			string tmp;
+			// 收获结果
+			for (int i = 0; i < record.size() - 1; i++)
+			{
+				tmp += std::to_string(record[i]);
+				tmp += "->";
+			}
+			tmp += std::to_string(record[record.size() - 1]);
+			result.push_back(tmp);
+			return;
+		}
+		if (root->left)
+		{
+			GetTreePaths(root->left, record, result);
+			record.pop_back();
+		}
+		if (root->right)
+		{
+			GetTreePaths(root->right, record, result);
+			record.pop_back();
+		}
+	}
+	vector<string> binaryTreePaths(TreeNode *root)
+	{
+		vector<int> record;
+		vector<string> result;
+		GetTreePaths(root, record, result);
+		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<string> binaryTreePaths(TreeNode *root)
+	{
+		stack<TreeNode *> sta;
+		stack<string> path;
+		vector<string> result;
+		if (root == nullptr)
+			return result;
+		sta.push(root);
+		path.push(std::to_string(root->val));
+		while (!sta.empty())
+		{
+			TreeNode *cur = sta.top();
+			sta.pop();
+			string cur_path = path.top();
+			path.pop();
+			if (cur->left == nullptr && cur->right == nullptr)
+			{
+				result.push_back(cur_path);
+			}
+
+			if (cur->right)
+			{
+				sta.push(cur->right);
+				path.push(cur_path + "->" + std::to_string(cur->right->val));
+			}
+			if (cur->left)
+			{
+				sta.push(cur->left);
+				path.push(cur_path + "->" + std::to_string(cur->left->val));
+			}
+		}
+		return result;
+	}
+};
+class Solution
+{
+public:
+	bool get_result(TreeNode *p, TreeNode *q)
+	{
+		if (p == nullptr && q == nullptr)
+			return true;
+		else if (p == nullptr && q != nullptr)
+			return false;
+		if (p != nullptr && q == nullptr)
+			return false;
+		else if (p->val != q->val)
+			return false;
+
+		int get_result1 = get_result(p->left, q->left);
+		int get_result2 = get_result(p->right, q->right);
+		return get_result1 & get_result2;
+	}
+	bool isSameTree(TreeNode *p, TreeNode *q)
+	{
+		return get_result(p, q);
+	}
+};
+class Solution
+{
+public:
+	int maxDepth(TreeNode *root)
+	{
+		queue<TreeNode *> tree;
+		if (root == nullptr)
+			return 0;
+		tree.push(root);
+		int depth = 0;
+		while (!tree.empty())
+		{
+			depth++;
+			int size = tree.size();
+
+			for (int i = 0; i < size; i++)
+			{
+				TreeNode *cur = tree.front();
+				tree.pop();
+
+				if (cur->left)
+					tree.push(cur->left);
+				if (cur->right)
+					tree.push(cur->right);
+			}
+		}
+		return depth;
+	}
+};
+class Solution
+{
+public:
+	int get_height(TreeNode *root)
+	{
+		if (root == nullptr)
+			return 0;
+		int h1 = get_height(root->left);
+		if (h1 == -1)
+			return -1;
+		int h2 = get_height(root->right);
+		if (h2 == -1)
+			return -1;
+		if (abs(h1 - h2) > 1)
+			return -1;
+		else
+			return max(h1, h2) + 1;
+	}
+	bool isBalanced(TreeNode *root)
+	{
+		return get_height(root) >= 0 ? true : false;
+	}
+};
+class Solution
+{
+public:
+	int sumOfLeftLeaves(TreeNode *root)
+	{
+		stack<TreeNode *> st;
+		if (root == NULL)
+			return 0;
+		st.push(root);
+		int result = 0;
+		while (!st.empty())
+		{
+			TreeNode *node = st.top();
+			st.pop();
+			if (node->left != nullptr && node->left->left == nullptr && node->left->right == nullptr)
+				result += node->left->val;
+			if (node->right)
+				st.push(node->right);
+			if (node->left)
+				st.push(node->left);
+		}
+		return result;
+	}
+};
+
+class Solution
+{
+public:
+	bool hasPathSum(TreeNode *root, int targetSum)
+	{
+		stack<TreeNode *> sta;
+		stack<int> sum;
+		if (root == nullptr)
+			return false;
+		sta.push(root);
+		sum.push(root->val);
+		while (!sta.empty())
+		{
+			TreeNode *node = sta.top();
+			sta.pop();
+			int tmp = sum.top();
+			sum.pop();
+			if(tmp == targetSum)
+				return true;
+			if (node->right)
+			{
+				sta.push(node->right);
+				sum.push(tmp + node->right->val);
+			}
+			if (node->left)
+			{
+				sta.push(node->left);
+				sum.push(tmp + node->left->val);
+			}
+		}
+		return false;
+	}
+};
