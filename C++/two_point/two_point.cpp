@@ -144,7 +144,7 @@ int main01()
 	}
 	cout << ans;
 }
-int main()
+int main02()
 {
 	int n, num;
 	cin >> n >> num;
@@ -169,8 +169,97 @@ int main()
 				j++;
 			}
 		}
-		//cout << cost << " "; 
+		// cout << cost << " ";
 		max_cost = max(max_cost, cost);
 	}
-	cout  << max_cost;
+	cout << max_cost;
+}
+int main03()
+{
+	int n, x;
+	cin >> n >> x;
+	vector<int> input(n, 0);
+	for (int i = 0; i < n; i++)
+	{
+		cin >> input[i];
+	}
+	vector<int> use;
+	for (int i = 0; i < n; i++)
+	{
+		int j = 1;
+		while (input[i]--)
+		{
+			use.push_back(j);
+			j++;
+		}
+	}
+	int sum = 0, max_sum = 0;
+	for (int i = 0; i < use.size(); i++)
+	{
+		int tmp = x;
+		int j = i;
+		sum = 0;
+		while (tmp--)
+		{
+			if (use.size() - i >= x)
+			{
+				sum += use[j];
+				j++;
+			}
+			else
+			{
+				if (j > use.size() - 1)
+					j = 0;
+				sum += use[j];
+				j++;
+			}
+		}
+		// cout << sum << " ";
+		max_sum = max(max_sum, sum);
+	}
+	cout << max_sum;
+}
+int main()
+{
+	int car_n, time, starttime_n, person_n;
+	cin >> car_n >> time >> starttime_n;
+	vector<int> start_time(starttime_n, 0);
+	for (int i = 0; i < starttime_n; i++)
+	{
+		cin >> start_time[i];
+	}
+	cin >> person_n;
+	vector<vector<int>> car_time(person_n, vector<int>(2, 0));
+	for (int j = 0; j < person_n; j++)
+	{
+		cin >> car_time[j][0] >> car_time[j][1];
+	}
+	vector<int> result(starttime_n, 0);
+	std::unordered_set<int> record;
+	for (int i = 0; i < starttime_n; i++)
+	{
+		// 判断是否在时间区域
+		// 遍历每一个乘客 找到后则收集到result中
+		int tmp_n = 0;
+		while (tmp_n < person_n)
+		{
+			if (car_time[tmp_n][1] >= start_time[i] && car_time[tmp_n][1] < start_time[i] + time)
+			{
+				if (!record.count(car_time[tmp_n][0]))
+				{
+					record.insert(car_time[tmp_n][0]);
+					result[i]++;
+				}
+			}
+			tmp_n++;
+		}
+		record.clear();
+	}
+	// 输出
+	for (int i = 0; i < starttime_n; i++)
+	{
+		cout << result[i];
+		if (i != starttime_n - 1)
+			cout << " ";
+	}
 }
