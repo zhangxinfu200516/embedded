@@ -32,7 +32,7 @@ int maxSubArraySum(vector<int> &nums)
 	}
 	return max_sum;
 }
-int main()
+int main01()
 {
 	int n;
 	cin >> n;
@@ -64,4 +64,147 @@ int main()
 #endif
 	int result = maxSubArraySum(input);
 	cout << result;
+}
+
+int main02()
+{
+	int areaRequirement, budget, n;
+	cin >> areaRequirement >> budget >> n;
+	vector<vector<int>> coverage_cost(n, vector<int>(2, 0));
+	for (int i = 0; i < n; i++)
+	{
+		cin >> coverage_cost[i][0] >> coverage_cost[i][1];
+	}
+
+	int i = 0, j = 0;
+	int min_cost = INT_MAX, max_area = 0;
+	for (i = 0; i < n; i++)
+	{
+		int sum_area = 0, sum_cost = 0;
+		j = i;
+		while (j < n)
+		{
+			sum_area += coverage_cost[j][0];
+			sum_cost += coverage_cost[j][1];
+
+			if (sum_area >= areaRequirement)
+			{
+				if (min_cost > sum_cost && sum_cost <= budget)
+				{
+					min_cost = sum_cost;
+					max_area = sum_area;
+				}
+				// cout << sum_cost << " " << sum_area << endl;
+				break;
+			}
+			else
+				j++;
+		}
+	}
+	min_cost = (min_cost == INT_MAX) ? 0 : min_cost;
+	cout << min_cost << " " << max_area;
+}
+
+int main03()
+{
+	int N, M;
+	cin >> N >> M;
+	vector<int> input(N, 0);
+	for (int i = 0; i < N; i++)
+	{
+		cin >> input[i];
+	}
+	vector<int> dp(N + 1, 0);
+	dp[1] = input[0];
+	int min_cost = INT_MAX;
+	if (N > M)
+	{
+		for (int i = 2; i < N + 1; i++)
+		{
+			min_cost = INT_MAX;
+			int j = max(i - M, 0);
+			while (j < i)
+			{
+				if (min_cost > dp[j])
+					min_cost = dp[j];
+				j++;
+			}
+			dp[i] = min_cost + input[i - 1];
+		}
+
+		min_cost = INT_MAX;
+		for (int i = N - M + 1; i < N + 1; i++)
+		{
+			min_cost = min(min_cost, dp[i]);
+		}
+	}
+	else
+	{
+		min_cost = INT_MAX;
+		for (int i = 1; i < N + 1; i++)
+		{
+			min_cost = min(input[i - 1], min_cost);
+		}
+	}
+	cout << min_cost;
+}
+#ifdef DISABLE
+int main04()
+{
+	string s1, s2;
+	cin >> s1 >> s2;
+	vector<int> result1(26, 0);
+	vector<int> result2(26, 0);
+	// cout << std::to_string('a') << " " << std::to_string('b'); // a为97 、 b为98
+	int left = 0;
+	for (int j = 0; j < s1.size(); j++)
+	{
+		if (s1[left] == s1[j])
+		{
+			// 不处理
+		}
+		else
+		{
+			// 记录该字母的最大个数并更新到result1中
+		}
+	}
+	int left = 0;
+	for (int j = 0; j < s2.size(); j++)
+	{
+		if (s2[left] == s2[j])
+		{
+			// 不处理
+		}
+		else
+		{
+			// 记录该字母的最大个数并更新到result2中
+		}
+	}
+
+	for (int i = 0; i < 26; i++)
+	{
+		// 对比result1与result2 得到最长的字符串结果并输出
+	}
+}
+#endif
+int main()
+{
+	string s1, s2;
+	cin >> s1 >> s2;
+	int n = s1.size(), m = s2.size();
+	vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+
+	int max_dp = -INT_MAX;
+	for (int i = 1; i < n + 1; i++)
+	{
+		for (int j = 1; j < m + 1; j++)
+		{
+			if (s1[i - 1] == s2[j - 1])
+			{
+				dp[i][j] = dp[i - 1][j - 1] + 1;
+				max_dp = max(dp[i][j], max_dp);
+			}
+		}
+	}
+	cout << max_dp;
 }
