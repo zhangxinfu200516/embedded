@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 using namespace std;
 
 // 前缀和的方法(error)
@@ -187,7 +188,7 @@ int main04()
 	}
 }
 #endif
-int main()
+int main04()
 {
 	string s1, s2;
 	cin >> s1 >> s2;
@@ -207,4 +208,76 @@ int main()
 		}
 	}
 	cout << max_dp;
+}
+void test_umap()
+{
+	std::unordered_map<int, int> umap;
+	umap.insert(std::make_pair(1, 1));
+	umap[2] = 1;
+	for (auto it = umap.begin(); it != umap.end(); it++)
+	{
+		cout << it->first << " " << it->second << endl;
+	}
+}
+// 01背包问题：每个物品的数量只有一个:按照选与不选考虑递归公式
+int main05()
+{
+	int n, max_weight;
+	cin >> n >> max_weight;
+	vector<int> weight(n, 0);
+	vector<int> value(n, 0);
+	for (int i = 0; i < n; i++)
+	{
+		cin >> weight[i];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cin >> value[i];
+	}
+	vector<vector<int>> dp(n, vector<int>(max_weight + 1, 0));
+	for (int i = weight[0]; i <= max_weight; i++)
+	{
+		dp[0][i] = value[0];
+	}
+	for (int i = 1; i < n; i++)
+	{
+		for (int j = 1; j <= max_weight; j++)
+		{
+			if (j - weight[i] < 0)
+				dp[i][j] = dp[i - 1][j];
+			else
+				dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+			cout << dp[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << dp[n - 1][max_weight];
+}
+//01背包问题，滚动数组方式，减小空间复杂度。
+int main()
+{
+	int n, max_weight;
+	cin >> n >> max_weight;
+	vector<int> weight(n, 0);
+	vector<int> value(n, 0);
+	for (int i = 0; i < n; i++)
+	{
+		cin >> weight[i];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cin >> value[i];
+	}
+
+	vector<int> dp(max_weight + 1, 0);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = max_weight; j >= weight[i]; j--)
+		{
+			dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+			//cout << dp[j] << " ";
+		}
+		//cout << endl;
+	}
+	cout << dp[max_weight];
 }
