@@ -253,8 +253,8 @@ int main05()
 	}
 	cout << dp[n - 1][max_weight];
 }
-//01背包问题，滚动数组方式，减小空间复杂度。
-int main()
+// 01背包问题，滚动数组方式，减小空间复杂度。
+int main06()
 {
 	int n, max_weight;
 	cin >> n >> max_weight;
@@ -275,9 +275,178 @@ int main()
 		for (int j = max_weight; j >= weight[i]; j--)
 		{
 			dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
-			//cout << dp[j] << " ";
+			// cout << dp[j] << " ";
 		}
-		//cout << endl;
+		// cout << endl;
 	}
 	cout << dp[max_weight];
 }
+
+class Solution1
+{
+public:
+	bool canPartition(vector<int> &nums)
+	{
+		int n = nums.size();
+		if (n == 1)
+			return false;
+		sort(nums.begin(), nums.end());
+		for (int i = 0; i < n; i++)
+		{
+			cout << nums[i] << " ";
+		}
+		cout << endl;
+		int left, right, D;
+		for (D = 0; D < n - 1; D++)
+		{
+			left = 0;
+			right = n - 1;
+			int sum1 = 0, sum2 = 0;
+			while (left <= D)
+			{
+				sum1 += nums[left++];
+			}
+			while (right > D)
+			{
+				sum2 += nums[right--];
+			}
+			if (sum1 == sum2)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+};
+class Solution2
+{
+public:
+	bool canPartition(vector<int> &nums)
+	{
+		int n = nums.size();
+		if (n == 1)
+			return false;
+		int sum = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			sum += nums[i];
+		}
+		if (sum % 2 != 0)
+			return false;
+		bool result = false;
+		vector<int> dp(sum / 2 + 1, 0);
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = sum / 2; j >= nums[i]; j--)
+			{
+				dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
+			}
+			for (int j = 0; j < sum / 2 + 1; j++)
+			{
+				cout << dp[j] << " ";
+			}
+			cout << endl;
+		}
+		cout << result;
+		if (dp[sum / 2] == sum / 2)
+			result = true;
+		return result;
+	}
+};
+int main07()
+{
+	int n;
+	cin >> n;
+	vector<int> stones(n, 0);
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> stones[i];
+		sum += stones[i];
+	}
+	int target = sum / 2;
+	vector<int> dp(target + 1, 0);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = target; j >= stones[i]; j--)
+		{
+			dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+		}
+		for (int j = 0; j < target + 1; j++)
+		{
+			cout << dp[j] << " ";
+		}
+		cout << endl;
+	}
+	cout << sum - dp[target] * 2;
+}
+class Solution
+{
+public:
+	int findTargetSumWays(vector<int> &nums, int target)
+	{
+		int sum = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			sum += nums[i];
+		}
+
+		if (abs(target) > sum)
+			return 0;
+		if ((sum + target) % 2 != 0)
+			return 0;
+		int traget_sum = (sum + target) / 2;
+		vector<int> dp(traget_sum + 1, 0);
+		dp[0] = 1;
+		// dp[nums[0]] = 1;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = traget_sum; j >= nums[i]; j--)
+			{
+				dp[j] = dp[j] + dp[j - nums[i]];
+			}
+			for (int i = 0; i <= traget_sum; i++)
+			{
+				cout << dp[i] << " ";
+			}
+			cout << endl;
+		}
+		return dp[traget_sum];
+	}
+};
+int main08()
+{
+	string s = "zhang";
+	for (char c : s)
+	{
+		cout << c;
+	}
+}
+class Solution
+{
+public:
+	int findMaxForm(vector<string> &strs, int m, int n)
+	{
+		vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+		for (string str : strs)
+		{
+			int zero_num = 0, one_num = 0;
+			for (char c : str)
+			{
+				if (c == '0')
+					zero_num++;
+				else
+					one_num++;
+			}
+
+			for (int i = m; i >= zero_num; i--)
+			{
+				for (int j = n; j >= one_num; j--)
+				{
+					dp[i][j] = max(dp[i][j], dp[i - zero_num][j - one_num] + 1);
+				}
+			}
+		}
+		return dp[m][n];
+	}
+};
