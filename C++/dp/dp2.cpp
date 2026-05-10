@@ -129,8 +129,8 @@ int main03()
 		cout << endl;
 	}
 }
-//完全背包求 排列类型题
-int main()
+// 完全背包求 排列类型题
+int main04()
 {
 	int n, m;
 	cin >> n >> m;
@@ -150,5 +150,62 @@ int main()
 		}
 		cout << endl;
 	}
-	cout <<  dp[n];
+	cout << dp[n];
 }
+// 多重背包
+int main()
+{
+	int bagWeight, n;
+	cin >> bagWeight >> n;
+	vector<int> weight(n, 0);
+	vector<int> value(n, 0);
+	vector<int> nums(n, 0);
+	for (int i = 0; i < n; i++)
+		cin >> weight[i];
+	for (int i = 0; i < n; i++)
+		cin >> value[i];
+	for (int i = 0; i < n; i++)
+		cin >> nums[i];
+	for (int i = 0; i < n; i++)
+	{
+		cout << weight[i] << " ";
+	}
+	cout << "--------------";
+	for (int i = 0; i < n; i++)
+	{
+		while (nums[i] > 1)
+		{
+			weight.push_back(weight[i]);
+			value.push_back(value[i]);
+			nums[i]--;
+		}
+	}
+	for (int i = 0; i < weight.size(); i++)
+	{
+		cout << weight[i] << " ";
+	}
+	cout << "--------------";
+}
+class Solution
+{
+public: 
+	int coinChange(vector<int> &coins, int amount)
+	{
+		vector<int> dp(amount + 1, INT_MAX / 2);
+		dp[0] = 0;
+		for (int i = 0; i < coins.size(); i++)
+		{
+			for (int j = 0; j < amount + 1; j++)
+			{
+				if (j >= coins[i] && dp[j - coins[i]] != INT_MAX / 2)
+					dp[j] = min(dp[j], dp[j - coins[i]] + 1);
+				cout << dp[j] << " ";
+			}
+			cout << endl;
+		}
+		if (dp[amount] == INT_MAX / 2)
+			return -1;
+		else
+			return dp[amount];
+	}
+};

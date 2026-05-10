@@ -318,6 +318,7 @@ public:
 		return false;
 	}
 };
+//01背包-问能否能装满背包（或者最多装多少）
 class Solution2
 {
 public:
@@ -335,11 +336,11 @@ public:
 			return false;
 		bool result = false;
 		vector<int> dp(sum / 2 + 1, 0);
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)//先遍历物品
 		{
-			for (int j = sum / 2; j >= nums[i]; j--)
+			for (int j = sum / 2; j >= nums[i]; j--)//再遍历背包重量
 			{
-				dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
+				dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);//一个维度
 			}
 			for (int j = 0; j < sum / 2 + 1; j++)
 			{
@@ -353,6 +354,7 @@ public:
 		return result;
 	}
 };
+//01背包-问能否能装满背包（或者最多装多少）
 int main07()
 {
 	int n;
@@ -380,6 +382,7 @@ int main07()
 	}
 	cout << sum - dp[target] * 2;
 }
+//01背包-装满背包的方法
 class Solution
 {
 public:
@@ -422,6 +425,7 @@ int main08()
 		cout << c;
 	}
 }
+//01背包（两个背包）-装满背包的方法
 class Solution
 {
 public:
