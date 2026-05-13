@@ -235,8 +235,8 @@ public:
 		return result;
 	}
 };
-//复原IP地址
-class Solution
+// 复原IP地址
+class Solution7
 {
 public:
 	vector<string> result;
@@ -266,7 +266,7 @@ public:
 			string seg = s.substr(start_index, i - start_index + 1);
 			int count = std::stoi(seg);
 			if (count < 0 || count > 255)
-				continue;
+				break;
 			int len = path.size();
 			path.append(seg);
 			if (k < 3)
@@ -289,4 +289,5 @@ int main()
 	string s1 = s.substr(0, 4);
 	// cout << s1;
 	string s2 = "255";
+
 }
