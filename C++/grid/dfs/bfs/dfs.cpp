@@ -38,6 +38,24 @@ void dfs1(vector<list<int>> &graph, int x, int n)
 		path.pop_back();
 	}
 }
+/*
+result
+path
+dfs (图、节点)
+{
+	if(终止条件)
+	{
+		result.push(path)
+		return;
+	}
+	for(遍历该节点所连接的所以节点)
+	{
+		path.push();//处理
+		dfs//递归
+		pop//回溯
+	}
+}
+*/
 int main()
 {
 	// 用户参数
