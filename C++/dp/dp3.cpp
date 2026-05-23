@@ -677,3 +677,94 @@ public:
 			return false;
 	}
 };
+
+class Solution
+{
+public:
+	int minCostClimbingStairs(vector<int> &cost)
+	{
+		cost.push_back(0);
+		vector<int> dp(cost.size(), 0);
+		dp[0] = cost[0];
+		dp[1] = cost[1];
+		for (int i = 2; i < cost.size(); i++)
+		{
+			dp[i] = min(dp[i - 1], dp[i - 2]) + cost[i];
+		}
+		return dp[cost.size() - 1];
+	}
+};
+class Solution
+{
+public:
+	int uniquePaths(int m, int n)
+	{
+		vector<vector<int>> dp(m, vector<int>(n, 0));
+		for (int i = 0; i < m; i++)
+		{
+			dp[i][0] = 1;
+		}
+		for (int j = 0; j < n; j++)
+		{
+			dp[0][j] = 1;
+		}
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n; j++)
+			{
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+			}
+		}
+		return dp[m - 1][n - 1];
+	}
+};
+class Solution
+{
+public:
+	int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid)
+	{
+
+		int m = obstacleGrid.size();
+		int n = obstacleGrid[0].size();
+		if (obstacleGrid[m - 1][n - 1] == 1) // 剪枝
+			return 0;
+		vector<vector<int>> dp(m, vector<int>(n, 0));
+		for (int i = 0; i < m; i++)
+		{
+			if (obstacleGrid[i][0] == 1)
+				break;
+			dp[i][0] = 1;
+		}
+		for (int j = 0; j < n; j++)
+		{
+			if (obstacleGrid[0][j] == 1)
+				break;
+			dp[0][j] = 1;
+		}
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n; j++)
+			{
+				dp[i][j] = dp[i - 1][j] * (!obstacleGrid[i - 1][j]) + dp[i][j - 1] * (!obstacleGrid[i][j - 1]);
+			}
+		}
+		return dp[m - 1][n - 1];
+	}
+};
+class Solution
+{
+public:
+	int integerBreak(int n)
+	{
+		vector<int> dp(n + 1, 0);
+		dp[2] = 1;
+		for (int i = 3; i < n + 1; i++)
+		{
+			for (int j = 1; j < i; j++)
+			{
+				dp[i] = max({j * (i - j), dp[i], j * dp[i - j]});
+			}
+		}
+		return dp[n];
+	}
+};
