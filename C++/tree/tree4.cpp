@@ -6,7 +6,7 @@ struct TreeNode
 	int val;
 	TreeNode *left;
 	TreeNode *right;
-	TreeNode(int __val) : val(__val), left(NULL), right(NULL) {}; // 初始化
+	TreeNode(int __val) : val(__val), left(NULL), right(NULL) {};
 };
 class Solution
 {
@@ -33,7 +33,7 @@ class Solution
 public:
 	void Get_invertTree(TreeNode *root)
 	{
-		if(root == NULL)
+		if (root == NULL)
 		{
 			return;
 		}
@@ -45,5 +45,30 @@ public:
 	{
 		Get_invertTree(root);
 		return root;
+	}
+};
+
+class Solution
+{
+public:
+	bool Is_True(TreeNode *left,TreeNode *right )
+	{
+		if(left == NULL && right == NULL)
+			return true;
+		else if(left != NULL && right == NULL)
+			return false;
+		else if(left == NULL && right != NULL)
+			return false;
+		else if(left->val != right->val)
+			return false;
+		
+		bool result1 = Is_True(left->left,right->right);
+		bool result2 = Is_True(left->right,right->left);
+		return result1 & result2;
+
+	}
+	bool isSymmetric(TreeNode *root)
+	{
+		return Is_True(root->left,root->right);
 	}
 };

@@ -1,0 +1,26 @@
+{
+    // // 解决终端启动失败(退出代码: -1)的问题
+    // "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    // "terminal.integrated.profiles.windows": {
+    //     "Command Prompt": {
+    //         "path": [
+    //             "${env:windir}\\System32\\cmd.exe"
+    //         ],
+    //         "args": [],
+    //         "icon": "terminal-cmd"
+    //     },
+    //     "PowerShell": {
+    //         "source": "PowerShell",
+    //         "icon": "terminal-powershell"
+    //     }
+    // },
+    // 编译配置
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && D:\\Users_keil5\\msys64\\ucrt64\\bin\\g++.exe -fdiagnostics-color=always -g $fileName -o $fileNameWithoutExt.exe && $dir$fileNameWithoutExt.exe"
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    // 文件编码
+    "files.encoding": "utf8",
+    "files.autoGuessEncoding": true
+}
