@@ -557,3 +557,72 @@ public:
 		return root;
 	}
 };
+class Solution {
+public:
+    
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        
+		if(root1 == NULL && root2 == NULL)
+			return nullptr;
+		if(root1 == NULL && root2 != NULL)
+			return root2;
+		if(root1 != NULL && root2 == NULL)
+			return root1;
+		root1->val += root2->val;
+
+		root1->left = mergeTrees(root1->left, root2->left);
+		root1->right = mergeTrees(root1->right, root2->right);
+
+		return root1;
+    }
+};
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+
+		if(root == NULL)
+			return nullptr;
+		if(val == root->val)
+			return root;
+		else if(val < root->val)
+		{
+			return searchBST(root->left, val);
+		}
+        else 
+		{
+			return searchBST(root->right, val);
+		}
+
+		return nullptr;
+    }
+};
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        
+		if(root == NULL || (root->left == NULL && root->right == NULL))
+			return true;
+		
+
+		if(root->left != NULL)
+		{
+			if(root->left->val >= root->val)
+				return false;
+			if(!isValidBST(root->left))
+				return false;
+		}
+
+		if(root->right != NULL)
+		{
+			if(root->right->val <= root->val)
+				return false;
+			if(!isValidBST(root->right))
+				return false;
+		}
+
+		return true;
+
+    }
+};
