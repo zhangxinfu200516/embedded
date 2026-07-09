@@ -626,3 +626,169 @@ public:
 
     }
 };
+class Solution {
+public:
+	int max_val = INT_MIN;
+    bool isValidBST(TreeNode* root) {
+        // 1 5 3 4 6
+		if(root == NULL)
+			return true;
+
+		bool left = isValidBST(root->left);
+
+		if(max_val < root->val)
+			max_val = root->val;
+		else
+			return false;
+
+		bool right = isValidBST(root->right);
+
+		return left && right;
+    }
+};
+
+class Solution {
+public:
+	vector<int> record;
+	int min_diff = INT_MAX;
+    int getMinimumDifference(TreeNode* root) {
+        if(root == NULL)
+            return 0;
+
+		int left_diff = getMinimumDifference(root->left);
+		record.push_back(root->val);
+		if(record.size() > 1)
+			min_diff = min(min_diff, abs(record[record.size() - 1] - record[record.size() - 2]));
+		int right_diff = getMinimumDifference(root->right);
+		
+		return min_diff;
+    }
+};
+
+class Solution {
+public:
+	vector<int> result;
+	unordered_map<int, int> map;
+
+	void func(TreeNode* root)
+	{
+		if(root == NULL)
+			return;
+		func(root->left);
+		map[root->val]++;
+		func(root->right);
+	}
+    vector<int> findMode(TreeNode* root) {
+        func(root);
+
+		int max_value = INT_MIN;
+		for(auto it = map.begin(); it != map.end(); it++)
+		{
+			if(it->second > max_value)
+				max_value = it->second;
+		}
+		
+		for(auto it = map.begin(); it != map.end(); it++)
+		{
+			if(it->second == max_value)
+				result.push_back(it->first);
+		}
+
+		return result;
+    }
+};
+
+class Solution {
+public:
+	void Get_depth(TreeNode* root, int val , int &depth)
+	{
+		if(root == NULL)
+			return;
+		
+		if(root->val == val)
+		{
+			return;
+		}
+
+		if(root->left)
+		{
+			depth++;
+			Get_depth(root->left, val, depth);
+			depth--;
+		}
+		if(root->right)
+		{
+			depth++;
+			Get_depth(root->right, val, depth);
+			depth--;
+		}
+		
+
+	}
+	TreeNode* Get_node(TreeNode* root, int val)
+	{
+		if(root == NULL)
+			return nullptr;
+		if(root->left)
+		{
+			if(root->left->val == val)
+				return root;
+			Get_node(root->left, val);
+		}
+		if(root->right)
+		{
+			if(root->right->val == val)
+				return root;
+			Get_node(root->right, val);
+		}
+		return nullptr;
+	}
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+		int p_depth = 0;
+		int q_depth = 0;
+		Get_depth(root, p->val, p_depth);
+		Get_depth(root, q->val, q_depth);
+		TreeNode* p_node = Get_node(root, p->val);
+		if(p_depth == q_depth)
+			return p_node;
+		else if(p_depth > q_depth)
+			return q;
+		else
+			return p;
+
+		return nullptr;
+    }
+};
+class Solution {
+public:
+	//
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if(root1 == NULL)
+			return root2;
+		else if(root2 == NULL)
+			return root1;
+		TreeNode* root = new TreeNode(root1->val + root2->val);
+		root->left = mergeTrees(root1->left, root2->left);
+		root->right = mergeTrees(root1->right, root2->right);
+		return root;
+    }
+};
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(root == NULL)
+			return nullptr;
+		if(val == root->val)
+			return root;
+		else if(val < root->val)
+		{
+			return searchBST(root->left, val);
+		}
+        else 
+		{
+			return searchBST(root->right, val);
+		}
+
+		return nullptr;
+    }
+};
