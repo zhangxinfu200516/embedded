@@ -114,12 +114,154 @@ bool func3(TreeNode *root)
 
 	return left_result & right_result;
 }
+
+int min_absval = INT_MAX;
+int pre_val = -1;
+int func4(TreeNode *root)
+{
+	if (root == NULL)
+		return 0;
+	func4(root->left);
+
+	if (pre_val != -1)
+		min_absval = min(min_absval, abs(root->val - pre_val));
+	pre_val = root->val;
+
+	func4(root->right);
+
+	return min_absval;
+}
+unordered_map<int, int> __map;
+void func5(TreeNode *root)
+{
+	if (root == NULL)
+		return;
+	func5(root->left);
+
+	__map[root->val]++;
+
+	func5(root->right);
+}
+vector<int> get_result()
+{
+	int max_count = 0;
+	vector<int> result;
+	for (auto it = __map.begin(); it != __map.end(); it++)
+	{
+		if (it->second > max_count)
+		{
+			max_count = it->second;
+		}
+	}
+	for (auto it = __map.begin(); it != __map.end(); it++)
+	{
+		if (it->second == max_count)
+			result.push_back(it->first);
+	}
+	return result;
+}
+
+TreeNode *func6(TreeNode *root, TreeNode *p, TreeNode *q)
+{
+	if (root == NULL)
+		return nullptr;
+	if (root == p || root == q)
+		return root;
+
+	TreeNode *left_result = func6(root->left, p, q);
+	TreeNode *right_result = func6(root->right, p, q);
+
+	if (left_result != nullptr && right_result != nullptr)
+		return root;
+	else if (left_result != nullptr && right_result == nullptr)
+		return left_result;
+	else if (left_result == nullptr && right_result != nullptr)
+		return right_result;
+
+	return nullptr;
+}
+
+void func7(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&result)
+{
+	if (root == NULL)
+		return;
+	if (root->val > p->val && root->val < q->val && result == nullptr)
+		result = root;
+	func7(root->left, p, q, result);
+	func7(root->right, p, q, result);
+}
+//层序遍历
+vector<int> level_order(TreeNode *root)
+{
+	if(root == NULL)
+		return {};
+	queue<TreeNode *> q;
+	q.push(root);
+	vector<int> result;
+	while(!q.empty())
+	{
+		TreeNode *node = q.front();
+		q.pop();
+		result.push_back(node->val);
+		if(node->left)
+			q.push(node->left);
+		if(node->right)
+			q.push(node->right);
+	}
+	return result;
+}
 int main()
 {
-	TreeNode *root = new TreeNode(5);
-	root->left = new TreeNode(1);
-	root->right = new TreeNode(7);
-	root->right->left = new TreeNode(4);
-	root->right->right = new TreeNode(8);
-	cout << func3(root) << endl;
+	TreeNode *root = new TreeNode(10);
+	root->left = new TreeNode(5);
+	root->right = new TreeNode(11);
+	root->left->left = new TreeNode(3);
+	root->left->right = new TreeNode(8);
+	root->right->right = new TreeNode(12);
+	root->left->left->left = new TreeNode(1);
+	root->left->right->left = new TreeNode(6);
+	root->left->right->right = new TreeNode(9);
+	vector<int> result = level_order(root);
+	for(int i = 0;i<result.size();i++)
+		cout<<result[i]<<" ";
+
 }
+
+class Solution
+{
+public:
+	TreeNode *insertIntoBST(TreeNode *root, int val)
+	{
+
+		if (val < root->val)
+		{
+			if (root->left == NULL)
+				root->left = new TreeNode(val);
+			insertIntoBST(root->left, val);
+		}
+		else if (val > root->val)
+		{
+			if (root->right == NULL)
+				root->right = new TreeNode(val);
+			insertIntoBST(root->right, val);
+		}
+
+		return root;
+	}
+};
+
+class Solution1
+{
+public:
+	TreeNode *insertIntoBST(TreeNode *root, int val)
+	{
+		if (root == NULL)
+			return new TreeNode(val);
+
+		if (val < root->val)
+			root->left = insertIntoBST(root->left, val);
+		else if (val > root->val)
+			root->right = insertIntoBST(root->right, val);
+		return root;
+	}
+};
