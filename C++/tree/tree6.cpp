@@ -265,3 +265,53 @@ public:
 		return root;
 	}
 };
+
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) 
+	{
+		if(root == NULL)
+			return root;
+        if(root->val == key)
+		{
+			if(root->left == NULL && root->right == NULL)
+			{
+				delete root;
+				return NULL;
+			}
+			else if(root->left != NULL && root->right == NULL)
+			{
+				auto tmp = root->left;
+				delete root;
+				return tmp;
+			}
+			else if(root->left == NULL && root->right != NULL)
+			{
+				auto tmp = root->right;
+				delete root;
+				return tmp;
+			}
+			else 
+			{
+				TreeNode* tmp = root->right;
+				TreeNode* cur = root->right;
+				while(cur->left != NULL)
+					cur = cur->left;
+				cur->left = root->left;
+				delete root;
+				return tmp;
+			}
+		}
+
+		if(root->val > key)
+		{
+			root->left = deleteNode(root->left,key);
+		}
+		else if(root->val < key)
+		{
+			root->right = deleteNode(root->right,key);
+		}
+
+		return root;
+    }
+};
