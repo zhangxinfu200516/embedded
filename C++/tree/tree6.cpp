@@ -190,44 +190,133 @@ void func7(TreeNode *root, TreeNode *p, TreeNode *q, TreeNode *&result)
 	func7(root->left, p, q, result);
 	func7(root->right, p, q, result);
 }
-//层序遍历
+// 层序遍历
 vector<int> level_order(TreeNode *root)
 {
-	if(root == NULL)
+	if (root == NULL)
 		return {};
 	queue<TreeNode *> q;
 	q.push(root);
 	vector<int> result;
-	while(!q.empty())
+	while (!q.empty())
 	{
 		TreeNode *node = q.front();
 		q.pop();
 		result.push_back(node->val);
-		if(node->left)
+		if (node->left)
 			q.push(node->left);
-		if(node->right)
+		if (node->right)
 			q.push(node->right);
 	}
 	return result;
 }
+class Solution
+{
+public:
+	TreeNode *trimBST(TreeNode *root, int low, int high)
+	{
+		if (root == NULL)
+			return NULL;
+
+		// if (root->val < low || root->val > high)
+		// {
+		// 	if (root->left == NULL && root->right == NULL)
+		// 		return NULL;
+		// 	else if (root->left != NULL && root->right == NULL)
+		// 		return root->left;
+		// 	else
+		// 		return root->right;
+		// }
+		if (root->val < low)
+			return trimBST(root->right, low, high);
+		else if (root->val > high)
+			return trimBST(root->left, low, high);
+
+		root->left = trimBST(root->left, low, high);
+		root->right = trimBST(root->right, low, high);
+
+		return root;
+	}
+};
+class Solution10
+{
+public:
+	TreeNode *func(vector<int> &nums)
+	{
+		if (nums.size() <= 0)
+			return NULL;
+		TreeNode *root = new TreeNode(nums[nums.size() - 1]);
+		TreeNode *cur = root;
+		for (int i = nums.size() - 2; i >= 0; i--)
+		{
+			cur->left = new TreeNode(nums[i]);
+			cur = cur->left;
+		}
+		return root;
+	}
+	TreeNode *sortedArrayToBST(vector<int> &nums)
+	{
+		int index = nums.size() / 2;
+		TreeNode *root = new TreeNode(nums[index]);
+		vector<int> left(nums.begin(), nums.begin() + index);
+		root->left = func(left);
+		vector<int> right(nums.begin() + index + 1, nums.end());
+		root->right = func(right);
+		return root;
+	}
+};
+class Solution01
+{
+public:
+	TreeNode *func(vector<int> &nums, int left, int right)
+	{
+		if (left > right)
+			return NULL;
+		int mid = (left + right) / 2;
+		TreeNode *root = new TreeNode(nums[mid]);
+		root->left = func(nums, left, mid - 1);
+		root->right = func(nums, mid + 1, right);
+		return root;
+	}
+	TreeNode *sortedArrayToBST(vector<int> &nums)
+	{
+		return func(nums, 0, nums.size() - 1);
+	}
+};
+class Solution02
+{
+public:
+	int pre = 0;
+	void func(TreeNode *root)
+	{
+		if(root == NULL)
+			return;
+		func(root->right);
+		root->val += pre;
+		pre = root->val;
+		func(root->left);
+	}
+	TreeNode *convertBST(TreeNode *root)
+	{
+		func(root);
+		return root;
+	}
+};
 int main()
 {
-	TreeNode *root = new TreeNode(10);
-	root->left = new TreeNode(5);
-	root->right = new TreeNode(11);
-	root->left->left = new TreeNode(3);
-	root->left->right = new TreeNode(8);
-	root->right->right = new TreeNode(12);
-	root->left->left->left = new TreeNode(1);
-	root->left->right->left = new TreeNode(6);
-	root->left->right->right = new TreeNode(9);
+	Solution s;
+	TreeNode *root = new TreeNode(3);
+	root->left = new TreeNode(0);
+	root->right = new TreeNode(4);
+	root->left->right = new TreeNode(2);
+	root->left->right->left = new TreeNode(1);
+	s.trimBST(root, 2, 3);
 	vector<int> result = level_order(root);
-	for(int i = 0;i<result.size();i++)
-		cout<<result[i]<<" ";
-
+	for (int i = 0; i < result.size(); i++)
+		cout << result[i] << " ";
 }
 
-class Solution
+class Solution0
 {
 public:
 	TreeNode *insertIntoBST(TreeNode *root, int val)
@@ -266,36 +355,37 @@ public:
 	}
 };
 
-class Solution {
+class Solution2
+{
 public:
-    TreeNode* deleteNode(TreeNode* root, int key) 
+	TreeNode *deleteNode(TreeNode *root, int key)
 	{
-		if(root == NULL)
+		if (root == NULL)
 			return root;
-        if(root->val == key)
+		if (root->val == key)
 		{
-			if(root->left == NULL && root->right == NULL)
+			if (root->left == NULL && root->right == NULL)
 			{
 				delete root;
 				return NULL;
 			}
-			else if(root->left != NULL && root->right == NULL)
+			else if (root->left != NULL && root->right == NULL)
 			{
 				auto tmp = root->left;
 				delete root;
 				return tmp;
 			}
-			else if(root->left == NULL && root->right != NULL)
+			else if (root->left == NULL && root->right != NULL)
 			{
 				auto tmp = root->right;
 				delete root;
 				return tmp;
 			}
-			else 
+			else
 			{
-				TreeNode* tmp = root->right;
-				TreeNode* cur = root->right;
-				while(cur->left != NULL)
+				TreeNode *tmp = root->right;
+				TreeNode *cur = root->right;
+				while (cur->left != NULL)
 					cur = cur->left;
 				cur->left = root->left;
 				delete root;
@@ -303,15 +393,15 @@ public:
 			}
 		}
 
-		if(root->val > key)
+		if (root->val > key)
 		{
-			root->left = deleteNode(root->left,key);
+			root->left = deleteNode(root->left, key);
 		}
-		else if(root->val < key)
+		else if (root->val < key)
 		{
-			root->right = deleteNode(root->right,key);
+			root->right = deleteNode(root->right, key);
 		}
 
 		return root;
-    }
+	}
 };
