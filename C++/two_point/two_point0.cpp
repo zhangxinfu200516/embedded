@@ -29,7 +29,7 @@ public:
 		}
 	}
 };
-class Solution
+class Solution03
 {
 public:
 	std::string normalizeSpacesOnly(const std::string &s)
@@ -89,6 +89,71 @@ public:
 		return result;
 	}
 };
+
+struct ListNode
+{
+	int val;
+	ListNode *next;
+	ListNode() : val(0), next(nullptr) {}
+	ListNode(int x) : val(x), next(nullptr) {};
+	ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+class Solution04
+{
+public:
+	ListNode *reverseList(ListNode *head)
+	{
+
+		vector<int> record;
+		while (head != NULL)
+		{
+			record.push_back(head->val);
+			head = head->next;
+		}
+		if (record.empty())
+			return nullptr;
+		ListNode *new_head = new ListNode(record[record.size() - 1]);
+		ListNode *cur = new_head;
+		for (int i = record.size() - 2; i >= 0; i--)
+		{
+			cur->next = new ListNode(record[i]);
+			cur = cur->next;
+		}
+		return new_head;
+	}
+};
+class Solution
+{
+public:
+	ListNode *reverseList(ListNode *head)
+	{
+		ListNode *cur = head, *pre = NULL, *temp = NULL;
+		while(cur)
+		{
+			temp = cur->next;
+			cur->next = pre;
+			pre = cur;
+			cur = temp;
+		}
+		return pre;
+	}
+};
 int main()
 {
+	ListNode *head = new ListNode(1);
+	head->next = new ListNode(2);
+	head->next->next = new ListNode(3);
+	Solution s;
+	vector<int> record;
+	while (head != NULL)
+	{
+		record.push_back(head->val);
+		head = head->next;
+	}
+	for (int i = 0; i < record.size(); i++)
+	{
+		cout << record[i] << " ";
+	}
+	return 0;
 }
