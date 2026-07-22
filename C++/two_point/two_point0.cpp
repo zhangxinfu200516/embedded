@@ -123,13 +123,13 @@ public:
 		return new_head;
 	}
 };
-class Solution
+class Solution05
 {
 public:
 	ListNode *reverseList(ListNode *head)
 	{
 		ListNode *cur = head, *pre = NULL, *temp = NULL;
-		while(cur)
+		while (cur)
 		{
 			temp = cur->next;
 			cur->next = pre;
@@ -139,21 +139,81 @@ public:
 		return pre;
 	}
 };
+class Solution06
+{
+public:
+	ListNode *detectCycle(ListNode *head)
+	{
+		ListNode *cur = head;
+		std::unordered_map<ListNode *, int> map;
+		while (cur)
+		{
+			map[cur]++;
+			cur = cur->next;
+			if (map[cur] >= 2)
+				break;
+		}
+		return cur;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> threeSum(vector<int> &nums)
+	{
+		sort(nums.begin(), nums.end());
+		vector<vector<int>> result;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (i > 0 && nums[i] == nums[i - 1])
+				continue;
+			int sum = -nums[i];
+			int j = i + 1, k = nums.size() - 1;
+			while (j < k)
+			{
+				if (j > i + 1 && nums[j] == nums[j - 1])
+				{
+					j++;
+					continue;
+				}
+
+				if (k < nums.size() - 1 && nums[k] == nums[k + 1])
+				{
+					k--;
+					continue;
+				}
+
+				int temp = nums[j] + nums[k];
+				if (temp < sum)
+					j++;
+				else if (temp > sum)
+					k--;
+				else
+				{
+					result.push_back({nums[i], nums[j], nums[k]});
+					j++;
+					k--;
+				}
+			}
+		}
+		return result;
+	}
+};
 int main()
 {
-	ListNode *head = new ListNode(1);
-	head->next = new ListNode(2);
-	head->next->next = new ListNode(3);
-	Solution s;
-	vector<int> record;
-	while (head != NULL)
-	{
-		record.push_back(head->val);
-		head = head->next;
-	}
-	for (int i = 0; i < record.size(); i++)
-	{
-		cout << record[i] << " ";
-	}
-	return 0;
+	// ListNode *head = new ListNode(1);
+	// head->next = new ListNode(2);
+	// head->next->next = new ListNode(3);
+	// Solution s;
+	// vector<int> record;
+	// while (head != NULL)
+	// {
+	// 	record.push_back(head->val);
+	// 	head = head->next;
+	// }
+	// for (int i = 0; i < record.size(); i++)
+	// {
+	// 	cout << record[i] << " ";
+	// }
+	// return 0;
 }
