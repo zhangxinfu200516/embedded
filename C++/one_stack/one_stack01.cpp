@@ -80,7 +80,7 @@ public:
 	{
 		vector<int> result(nums.size(), -1);
 		int n = nums.size();
-		for(int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)
 		{
 			nums.push_back(nums[i]);
 		}
@@ -99,14 +99,70 @@ public:
 		return result;
 	}
 };
+class Solution05
+{
+public:
+	int trap(vector<int> &height)
+	{
+		int result = 0;
+		for (int i = 1; i < height.size() - 1; i++)
+		{
+
+			int left_nums = i - 1, max_left = 0;
+			while (left_nums >= 0)
+			{
+				if (height[left_nums] > max_left)
+					max_left = height[left_nums];
+				left_nums--;
+			}
+			int right_nums = i + 1, max_right = 0;
+			while (right_nums < height.size())
+			{
+				if (height[right_nums] > max_right)
+					max_right = height[right_nums];
+				right_nums++;
+			}
+			int val = min(max_left, max_right) - height[i];
+			result += max(val, 0);
+		}
+		return result;
+	}
+};
+class Solution06
+{
+public:
+	int largestRectangleArea(vector<int> &heights)
+	{
+		int result = 0;
+		for(int i = 0; i < heights.size(); i++)
+		{
+			int left_count = i - 1;
+			while(left_count >= 0)
+			{
+				if(heights[left_count] < heights[i])
+					break;
+				left_count--;
+			}
+			int right_count = i + 1;
+			while(right_count < heights.size())
+			{
+				if(heights[right_count] < heights[i])
+					break;
+				right_count++;
+			}
+			cout << left_count << " " << right_count << " " << heights[i] << endl;
+			int s = max(0,(right_count - left_count - 1) * heights[i]);
+			if(s > result)
+				result = s;
+		}
+		return result;
+	}
+};
 int main()
 {
-	Solution04 s;
-	vector<int> nums = {1,2,3,4,3};
-	vector<int> result = s.nextGreaterElements(nums);
-	for (int i = 0; i < result.size(); i++)
-	{
-		cout << result[i] << " ";
-	}
+	Solution06 s;
+	vector<int> nums = {2, 4};
+	int result = s.largestRectangleArea(nums);
+	
 	return 0;
 }
