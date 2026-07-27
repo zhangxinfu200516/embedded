@@ -232,7 +232,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution08
 {
 public:
 	bool is_true(string s)
@@ -241,7 +241,7 @@ public:
 			return false;
 		if (stoi(s) - 0 > 255)
 			return false;
-		if(stoi(s) != 0 && s[0] == '0')
+		if (stoi(s) != 0 && s[0] == '0')
 			return false;
 		return true;
 	}
@@ -250,11 +250,11 @@ public:
 	int count = 0;
 	void bt(string s, int start_index)
 	{
-		if(count > 4)
+		if (count > 4)
 			return;
 		if (start_index == s.size() && count == 4)
 		{
-			result.push_back(path.substr(0,path.size() - 1));
+			result.push_back(path.substr(0, path.size() - 1));
 			return;
 		}
 		for (int i = start_index; i < s.size(); i++)
@@ -278,6 +278,51 @@ public:
 	vector<string> restoreIpAddresses(string s)
 	{
 		bt(s, 0);
+		return result;
+	}
+};
+class Solution09
+{
+public:
+	vector<vector<int>> result;
+	vector<int> path;
+	void bt(vector<int> &nums, int start_index)
+	{
+		result.push_back(path);
+		for (int i = start_index; i < nums.size(); i++)
+		{
+			path.push_back(nums[i]);
+			bt(nums, i + 1);
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> subsets(vector<int> &nums)
+	{
+		bt(nums, 0);
+		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> result;
+	vector<int> path;
+	void bt(vector<int> &nums, int start_index)
+	{
+		result.push_back(path);
+		for (int i = start_index; i < nums.size(); i++)
+		{
+			if (i > start_index && nums[i] == nums[i - 1])
+				continue;
+			path.push_back(nums[i]);
+			bt(nums, i + 1);
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> subsetsWithDup(vector<int> &nums)
+	{
+		sort(nums.begin(), nums.end());
+		bt(nums, 0);
 		return result;
 	}
 };
