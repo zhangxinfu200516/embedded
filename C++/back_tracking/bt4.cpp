@@ -302,7 +302,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution10
 {
 public:
 	vector<vector<int>> result;
@@ -323,6 +323,66 @@ public:
 	{
 		sort(nums.begin(), nums.end());
 		bt(nums, 0);
+		return result;
+	}
+};
+class Solution11
+{
+public:
+	vector<vector<int>> result;
+	vector<int> path;
+	void bt(vector<int> &nums, int start_index)
+	{
+		if (path.size() >= 2)
+		{
+			result.push_back(path);
+		}
+		std::unordered_map<int, int> map;
+		for (int i = start_index; i < nums.size(); i++)
+		{
+			if (map[nums[i]] != 0) // 处理不相邻的去重情况
+				continue;
+			if (!path.empty() && path.back() > nums[i])
+				continue;
+			map[nums[i]]++;
+			path.push_back(nums[i]);
+			bt(nums, i + 1);
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> findSubsequences(vector<int> &nums)
+	{
+		bt(nums, 0);
+		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> result;
+	vector<int> path;
+	void bt(vector<int> &nums, vector<bool> &visited)
+	{
+		if (path.size() == nums.size())
+		{
+			result.push_back(path);
+			return;
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (visited[i] == true)
+				continue;
+			path.push_back(nums[i]);
+			visited[i] = true;
+			bt(nums, visited);
+			visited[i] = false;
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> permute(vector<int> &nums)
+	{
+		vector<bool> visited(nums.size(), false);
+		bt(nums, visited);
 		return result;
 	}
 };
