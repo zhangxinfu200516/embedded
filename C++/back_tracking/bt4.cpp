@@ -356,7 +356,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution12
 {
 public:
 	vector<vector<int>> result;
@@ -380,6 +380,38 @@ public:
 		}
 	}
 	vector<vector<int>> permute(vector<int> &nums)
+	{
+		vector<bool> visited(nums.size(), false);
+		bt(nums, visited);
+		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> result;
+	vector<int> path;
+	void bt(vector<int> &nums, vector<bool> &visited)
+	{
+		if (path.size() == nums.size())
+		{
+			result.push_back(path);
+			return;
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (visited[i] == true)
+				continue;
+			if (i > 0 && nums[i] == nums[i - 1] && visited[i - 1] == false)
+				continue;
+			path.push_back(nums[i]);
+			visited[i] = true;
+			bt(nums, visited);
+			visited[i] = false;
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> permuteUnique(vector<int> &nums)
 	{
 		vector<bool> visited(nums.size(), false);
 		bt(nums, visited);
