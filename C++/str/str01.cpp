@@ -37,7 +37,7 @@ public:
 		return s;
 	}
 };
-class Solution
+class Solution02
 {
 public:
 	string reverseStr(string s, int k)
@@ -59,11 +59,134 @@ public:
 		return s;
 	}
 };
+
+class Solution03
+{
+public:
+	string delete_space(string s)
+	{
+		string result;
+		bool space_flag = false, word_flag = false;
+		for (int i = 0; i < s.size(); i++)
+		{
+			if (s[i] == ' ')
+			{
+				if (word_flag)
+					space_flag = true;
+			}
+			else
+			{
+				if (space_flag)
+				{
+					result.push_back(' ');
+					space_flag = false;
+				}
+				result.push_back(s[i]);
+				word_flag = true;
+			}
+		}
+		return result;
+	}
+	string reverseWords(string s)
+	{
+		string result;
+		vector<string> record;
+		int start_index = 0;
+		string str = delete_space(s);
+		for (int i = 0; i <= str.size(); i++)
+		{
+			if (str[i] == ' ' || i == str.size())
+			{
+				record.push_back(str.substr(start_index, i - start_index));
+				start_index = i + 1;
+			}
+		}
+		for (int j = record.size() - 1; j >= 0; j--)
+		{
+			result += record[j];
+			if (j != 0)
+				result += ' ';
+		}
+		return result;
+	}
+	#ifdef Q1
+	string reverseWords(string s)
+	{
+		string str = delete_space(s);
+		reverse(str.begin(), str.end());
+		int start_index = 0;
+		for (int i = 0; i <= str.size(); i++)
+		{
+			if (str[i] == ' ' || i == str.size())
+			{
+				reverse(str.begin() + start_index, str.begin() + i);
+				start_index = i + 1;
+			}
+		}
+		return str;
+	}
+	#endif
+};
+class Solution04
+{
+public:
+	int strStr(string haystack, string needle)
+	{
+		int val = 0, needle_index = 0;
+		bool lock = false;
+		for (int i = 0; i < haystack.size(); i++)
+		{
+			if (haystack[i] == needle[0] && val == 0)
+				lock = true;
+			if (lock && haystack[i] == needle[needle_index++])
+				val++;
+		}
+		if (val == needle.size())
+			return 0;
+		else
+			return -1;
+	}
+};
+class Solution
+{
+public:
+	bool is_true(string s1, string s2)
+	{
+		if (s1.size() != s2.size())
+			return false;
+		for (int i = 0; i < s1.size(); i++)
+		{
+			if (s1[i] != s2[i])
+				return false;
+		}
+		return true;
+	}
+	bool repeatedSubstringPattern(string s)
+	{
+		for (int i = 0; i < s.size(); i++)
+		{
+			if (i > 0 && s[0] == s[i])
+			{
+				string temp = s.substr(0, i);
+				int count = s.size() / temp.size();
+				string record;
+				record.resize(0);
+				while (count > 0)
+				{
+					record += temp;
+					count--;
+				}
+				if (is_true(record, s))
+					return true;
+			}
+		}
+		return false;
+	}
+};
 int main()
 {
-	string str = "hello";
-	reverse(str.begin(), str.end());
-	for(int i = 0; i < str.size(); i++)
-		cout << str[i] << " ";
+	Solution s;
+	cout << s.repeatedSubstringPattern("abaabd") << endl;
+
 	return 0;
 }
