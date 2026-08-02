@@ -106,7 +106,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution06
 {
 public:
 	bool canConstruct(string ransomNote, string magazine)
@@ -123,19 +123,3 @@ public:
 		return true;
 	}
 };
-int main()
-{
-	// Solution s;
-
-	// cout << s.isHappy(19) << endl;
-	// std::unordered_set<int> set;
-	// set.insert(1);
-	// set.insert(2);
-
-	// cout << set.count(3) << endl;
-	std::unordered_map<char, int> map;
-	cout << map['s'] << endl;
-	map['s']--;
-	cout << map['s'] << endl;
-	return 0;
-}
