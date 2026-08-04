@@ -20,7 +20,7 @@ public:
 		return -1;
 	}
 };
-class Solution
+class Solution02
 {
 public:
 	int minSubArrayLen(int target, vector<int> &nums)
@@ -40,7 +40,7 @@ public:
 		return (result == INT_MAX ? 0 : result);
 	}
 };
-class Solution
+class Solution03
 {
 public:
 	vector<int> sortedSquares(vector<int> &nums)
@@ -51,6 +51,71 @@ public:
 		return nums;
 	}
 };
+class Solution04
+{
+public:
+	vector<vector<int>> generateMatrix(int n)
+	{
+		vector<vector<int>> result(n, vector<int>(n, 0));
+		int val = 1, star = 1, count = n / 2;
+
+		while (count > 0)
+		{
+			int i, j;
+			for (j = star - 1, i = star - 1; j < n - star; j++)
+				result[i][j] = val++;
+			for (j = n - star, i = star - 1; i < n - star; i++)
+				result[i][j] = val++;
+			for (j = n - star, i = n - star; j > star - 1; j--)
+				result[i][j] = val++;
+			for (j = star - 1, i = n - star; i > star - 1; i--)
+				result[i][j] = val++;
+			star++;
+			count--;
+		}
+		if (n % 2 == 1)
+			result[n / 2][n / 2] = n * n;
+		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> generateMatrix(int n)
+	{
+		vector<vector<int>> result(n, vector<int>(n, 0));
+		int x = 0, val = 1, offest = 1, count = n / 2;
+		while (count > 0)
+		{
+			int i, j;
+			for (i = x, j = x; j < n - offest; j++)
+				result[i][j] = val++;
+			for (i = x, j = n - offest; i < n - offest; i++)
+				result[i][j] = val++;
+			for (i = n - offest, j = n - offest; j > x; j--)
+				result[i][j] = val++;
+			for (i = n - offest, j = x; i > x; i--)
+				result[i][j] = val++;
+			x++;
+			offest++;
+			count--;
+		}
+		if (n % 2 == 1)
+			result[n / 2][n / 2] = n * n;
+		return result;
+	}
+};
 int main()
 {
+	Solution s;
+	vector<vector<int>> result = s.generateMatrix(4);
+	for (int i = 0; i < result.size(); i++)
+	{
+		for (int j = 0; j < result[0].size(); j++)
+		{
+			cout << result[i][j] << " ";
+		}
+		cout << endl;
+	}
+	return 0;
 }
