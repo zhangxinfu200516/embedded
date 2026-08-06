@@ -30,7 +30,7 @@ public:
 		return head;
 	}
 };
-class Solution
+class Solution02
 {
 public:
 	ListNode *reverseList(ListNode *head)
@@ -49,13 +49,13 @@ public:
 		return pre;
 	}
 };
-class Solution
+class Solution03
 {
 public:
 	ListNode *removeNthFromEnd(ListNode *head, int n)
 	{
 		int num = 0;
-		ListNode *cur = head,*pre = NULL;
+		ListNode *cur = head, *pre = NULL;
 		while (cur)
 		{
 			num++;
@@ -63,17 +63,60 @@ public:
 		}
 		int target = num - n;
 		cur = head;
-		while(target > 0)
+		while (target > 0)
 		{
 			pre = cur;
 			cur = cur->next;
 			target--;
 		}
-		if(cur != head)
+		if (cur != head)
 			pre->next = cur->next;
-		else 
+		else
 			head = cur->next;
 		return head;
+	}
+};
+class Solution04
+{
+public:
+	ListNode *getIntersectionNode(ListNode *headA, ListNode *headB)
+	{
+		std::map<ListNode *, int> map;
+		ListNode *cur = headA;
+		while (cur)
+		{
+			map[cur]++;
+			cur = cur->next;
+		}
+		cur = headB;
+		while (cur)
+		{
+			map[cur]++;
+			cur = cur->next;
+		}
+		for (auto it = map.begin(); it != map.end(); it++)
+		{
+			if (it->second >= 2)
+				return it->first;
+		}
+		return NULL;
+	}
+};
+class Solution
+{
+public:
+	ListNode *detectCycle(ListNode *head)
+	{
+		std::map<ListNode *, int> map;
+		ListNode *cur = head;
+		while (cur)
+		{
+			map[cur]++;
+			if (map[cur] >= 2)
+				return cur;
+			cur = cur->next;
+		}
+		return NULL;
 	}
 };
 int main()
