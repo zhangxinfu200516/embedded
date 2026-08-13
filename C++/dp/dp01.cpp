@@ -80,7 +80,7 @@ public:
 		return dp[m - 1][n - 1];
 	}
 };
-class Solution
+class Solution06
 {
 public:
 	int numTrees(int n)
@@ -92,6 +92,23 @@ public:
 			for (int j = 0; j < i; j++)
 			{
 				dp[i] += dp[j] * dp[i - 1 - j];
+			}
+		}
+		return dp[n];
+	}
+};
+class Solution
+{
+public:
+	int integerBreak(int n)
+	{
+		vector<int> dp(n + 1, 0);
+		dp[2] = 1;
+		for (int i = 3; i <= n; i++)
+		{
+			for (int j = 1; j <= i / 2; j++)
+			{
+				dp[i] = max({dp[i], j * (i - j), j * dp[i - j]});
 			}
 		}
 		return dp[n];
