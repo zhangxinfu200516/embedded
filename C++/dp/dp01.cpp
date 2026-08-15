@@ -97,7 +97,7 @@ public:
 		return dp[n];
 	}
 };
-class Solution
+class Solution07
 {
 public:
 	int integerBreak(int n)
@@ -114,6 +114,150 @@ public:
 		return dp[n];
 	}
 };
+
+void func01(int n, int max_w, vector<int> value, vector<int> weight)
+{
+	vector<int> dp(max_w + 1, 0);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = max_w; j >= weight[i]; j--)
+			dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+		for (int j = 0; j <= max_w; j++)
+			cout << dp[j] << " ";
+		cout << endl;
+	}
+}
+class Solution08
+{
+public:
+	bool canPartition(vector<int> &nums)
+	{
+		int sum = 0, target = 0;
+		for (int i = 0; i < nums.size(); i++)
+			sum += nums[i];
+		if (sum % 2 != 0)
+			return false;
+		target = sum / 2;
+		vector<int> dp(target + 1, 0);
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = target; j >= nums[i]; j--)
+			{
+				dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
+			}
+		}
+		if (dp[target] == target)
+			return true;
+		else
+			return false;
+	}
+};
+class Solution09
+{
+public:
+	int lastStoneWeightII(vector<int> &stones)
+	{
+		int sum = 0, target = 0;
+		for (int i = 0; i < stones.size(); i++)
+			sum += stones[i];
+		target = sum / 2;
+		vector<int> dp(target + 1, 0);
+		for (int i = 0; i < stones.size(); i++)
+		{
+			for (int j = target; j >= stones[i]; j--)
+			{
+				dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+			}
+			for (int j = 0; j <= target; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		return sum - 2 * dp[target];
+	}
+};
+class Solution10
+{
+public:
+	int findTargetSumWays(vector<int> &nums, int target)
+	{
+		int sum = 0;
+		for (int i = 0; i < nums.size(); i++)
+			sum += nums[i];
+		int b = (target + sum) / 2;
+		vector<vector<int>> dp(nums.size(), vector<int>(b + 1, 0));
+		for (int i = 0; i < nums.size(); i++)
+			dp[i][0] = 1;
+		dp[0][nums[0]] = 1;
+		for (int i = 1; i < nums.size(); i++)
+		{
+			for (int j = 1; j <= b; j++)
+			{
+				dp[i][j] = dp[i - 1][j] + dp[i - 1][j - nums[i]];
+			}
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = 0; j <= b; j++)
+				cout << dp[i][j] << " ";
+			cout << endl;
+		}
+		return dp[nums.size() - 1][b];
+	}
+};
+class Solution
+{
+public:
+	int findMaxForm(vector<string> &strs, int m, int n)
+	{
+		int result = 0;
+		for (int i = 0; i < strs.size(); i++)
+		{
+			map<char, int> map;
+			for (int j = 0; j < strs[i].size(); j++)
+			{
+				map[strs[i][j]]++;
+			}
+            cout << map['0'] << " " << map['1'] << endl;
+			if (map['0'] <= m && map['1'] <= n)
+			{
+				int val = strs[i].size();
+				result = max(result, val);
+			}
+		}
+		return result;
+	}
+};
 int main()
 {
+	int n, max_w;
+	cin >> n >> max_w;
+	vector<int> weight(n, 0);
+	vector<int> value(n, 0);
+	for (int i = 0; i < n; i++)
+	{
+		cin >> weight[i] >> value[i];
+	}
+	func01(n, max_w, value, weight);
+	// vector<vector<int>> dp(n, vector<int>(max_w + 1, 0));
+	// for (int j = weight[0]; j <= max_w; j++)
+	// 	dp[0][j] = value[0];
+	// for (int i = 1; i < n; i++)
+	// {
+	// 	for (int j = 1; j <= max_w; j++)
+	// 	{
+	// 		if (j - weight[i] >= 0)
+	// 			dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+	// 		else
+	// 			dp[i][j] = dp[i - 1][j];
+	// 	}
+	// }
+	// for (int i = 0; i < n; i++)
+	// {
+	// 	for (int j = 0; j <= max_w; j++)
+	// 	{
+	// 		cout << dp[i][j] << " ";
+	// 	}
+	// 	cout << endl;
+	// }
+	return 0;
 }
