@@ -204,7 +204,7 @@ public:
 		return dp[nums.size() - 1][b];
 	}
 };
-class Solution
+class Solution11
 {
 public:
 	int findMaxForm(vector<string> &strs, int m, int n)
@@ -217,7 +217,7 @@ public:
 			{
 				map[strs[i][j]]++;
 			}
-            cout << map['0'] << " " << map['1'] << endl;
+			cout << map['0'] << " " << map['1'] << endl;
 			if (map['0'] <= m && map['1'] <= n)
 			{
 				int val = strs[i].size();
@@ -225,6 +225,163 @@ public:
 			}
 		}
 		return result;
+	}
+};
+class Solution12
+{
+public:
+	int change(int amount, vector<int> &coins)
+	{
+		int n = coins.size();
+		vector<vector<int>> dp(n, vector<int>(amount + 1, 0));
+		for (int i = 0; i < n; i++)
+			dp[i][0] = 1;
+		for (int j = coins[0]; j <= amount; j++)
+			dp[0][j] = dp[0][j - coins[0]];
+		for (int i = 1; i < n; i++)
+		{
+			for (int j = 1; j <= amount; j++)
+			{
+				if (j - coins[i] < 0)
+					dp[i][j] = dp[i - 1][j];
+				else
+					dp[i][j] = dp[i][j - coins[i]] + dp[i - 1][j];
+			}
+		}
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j <= amount; j++)
+				cout << dp[i][j] << " ";
+			cout << endl;
+		}
+		return dp[n - 1][amount];
+	}
+};
+class Solution13
+{
+public:
+	int change(int amount, vector<int> &coins)
+	{
+		int n = coins.size();
+		vector<int> dp(amount + 1, 0);
+		dp[0] = 1;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = coins[i]; j <= amount; j++)
+			{
+				dp[j] = dp[j] + dp[j - coins[i]];
+			}
+			for (int j = 0; j <= amount; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		return dp[amount];
+	}
+};
+class Solution14
+{
+public:
+	int combinationSum4(vector<int> &nums, int target)
+	{
+		vector<int> dp(target + 1, 0);
+		dp[0] = 1;
+		for (int j = 0; j <= target; j++)
+		{
+			for (int i = 0; i < nums.size(); i++)
+			{
+				if (j - nums[i] >= 0)
+					dp[j] += dp[j - nums[i]];
+				cout << dp[j] << " ";
+			}
+			cout << endl;
+		}
+
+		return dp[target];
+	}
+};
+class Solution15
+{
+public:
+	int coinChange(vector<int> &coins, int amount)
+	{
+		vector<int> dp(amount + 1, INT_MAX);
+		dp[0] = 0;
+		for (int i = 0; i < coins.size(); i++)
+		{
+			for (int j = coins[i]; j <= amount; j++)
+			{
+				int count = j / coins[i];
+				if (dp[j - count * coins[i]] == INT_MAX)
+					continue;
+				dp[j] = min(dp[j], dp[j - count * coins[i]] + count);
+			}
+			for (int j = 0; j <= amount; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		if (dp[amount] == INT_MAX)
+			return -1;
+		return dp[amount];
+	}
+};
+class Solution16
+{
+public:
+	int numSquares(int n)
+	{
+		vector<int> nums;
+		int val = 1;
+		while (val * val <= n)
+		{
+			nums.push_back(val * val);
+			val += 1;
+		}
+		for (int i = 0; i < nums.size(); i++)
+			cout << nums[i] << " ";
+		cout << endl;
+		vector<int> dp(n + 1, INT_MAX);
+		dp[0] = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = nums[i]; j <= n; j++)
+			{
+				if (dp[j - nums[i]] == INT_MAX)
+					continue;
+				dp[j] = min(dp[j], dp[j - nums[i]] + 1);
+			}
+			for (int j = 0; j <= n; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		return dp[n];
+	}
+};
+class Solution17
+{
+public:
+	int start = 0;
+	map<string, int> map;
+	void bt(string s, int index)
+	{
+		if (index == s.size())
+			return;
+		for (int i = index; i < s.size(); i++)
+		{
+			string temp = s.substr(start, i - start + 1);
+			if (map[temp] > 0)
+				start = i + 1;
+			bt(s, i + 1);
+		}
+	}
+	bool wordBreak(string s, vector<string> &wordDict)
+	{
+		for (int i = 0; i < wordDict.size(); i++)
+			map[wordDict[i]]++;
+		bt(s, 0);
+		if(start != s.size())
+			return false;
+		else
+			return true;
 	}
 };
 int main()
