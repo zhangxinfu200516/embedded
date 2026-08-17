@@ -378,12 +378,95 @@ public:
 		for (int i = 0; i < wordDict.size(); i++)
 			map[wordDict[i]]++;
 		bt(s, 0);
-		if(start != s.size())
+		if (start != s.size())
 			return false;
 		else
 			return true;
 	}
 };
+class Solution
+{
+public:
+	int rob(vector<int> &nums)
+	{
+		int n = nums.size();
+		vector<int> dp(n, 0);
+		dp[0] = nums[0];
+		dp[1] = max(nums[0], nums[1]);
+		for (int j = 2; j < n; j++)
+		{
+			dp[j] = max(dp[j - 1], dp[j - 2] + nums[j]);
+		}
+		return dp[n - 1];
+	}
+};
+class Solution
+{
+public:
+	int get_max(vector<int> nums)
+	{
+		int n = nums.size();
+		vector<int> dp(n, 0);
+		dp[0] = nums[0];
+		dp[1] = max(nums[0], nums[1]);
+		for (int j = 2; j < n; j++)
+		{
+			dp[j] = max(dp[j - 1], dp[j - 2] + nums[j]);
+		}
+		return dp[n - 1];
+	}
+	int rob(vector<int> &nums)
+	{
+		vector<int> nums1(nums.begin(), nums.end() - 1);
+		vector<int> nums2(nums.begin() + 1, nums.end());
+		int result = max(get_max(nums1), get_max(nums2));
+		return result;
+	}
+};
+
+struct TreeNode
+{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int _val) : val(_val), left(NULL), right(NULL) {};
+};
+class Solution
+{
+public:
+	int rob(TreeNode *root)
+	{
+		std::queue<TreeNode *> que;
+		que.push(root);
+		vector<int> record;
+		while (!que.empty())
+		{
+			int n = que.size();
+			int sum = 0;
+			for (int i = 0; i < n; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				sum += it->val;
+				if (it->left)
+					que.push(it->left);
+				if (it->right)
+					que.push(it->right);
+			}
+			record.push_back(sum);
+		}
+		int sum1 = 0, sum2 = 0;
+		for (int i = 0; i < record.size(); i++)
+		{
+			if (i % 2)
+				sum1 += record[i];
+			else
+				sum2 += record[i];
+		}
+		return max(sum1, sum2);
+	}
+};
+
 int main()
 {
 	int n, max_w;
