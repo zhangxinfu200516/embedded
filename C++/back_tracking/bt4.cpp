@@ -386,7 +386,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution13
 {
 public:
 	vector<vector<int>> result;
@@ -415,6 +415,33 @@ public:
 	{
 		vector<bool> visited(nums.size(), false);
 		bt(nums, visited);
+		return result;
+	}
+};
+class Solution
+{
+public:
+	bool is_true(string s)
+	{
+		for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+		{
+			if (s[i] != s[j])
+				return false;
+		}
+		return true;
+	}
+	int countSubstrings(string s)
+	{
+		int result = 0;
+		for (int i = 0; i < s.size(); i++)
+		{
+			for (int j = i; j < s.size(); j++)
+			{
+				string temp = s.substr(i, j - i + 1);
+				if(is_true(temp))
+					result++;
+			}
+		}
 		return result;
 	}
 };
