@@ -299,6 +299,24 @@ public:
 		return max(dp[prices.size() - 1][1], dp[prices.size() - 1][2]);
 	}
 };
+class Solution
+{
+public:
+	int lengthOfLIS(vector<int> &nums)
+	{
+		vector<int> dp(nums.size(), 1);
+		for(int i = 1; i < nums.size(); i++)
+		{
+			for(int j = 0; j < i; j++)
+			{
+				if(nums[j] < nums[i])
+					dp[i] = max(dp[i],dp[j] + 1);					
+			}
+		}
+		sort(dp.begin(),dp.end());
+		return dp[nums.size() - 1];
+	}
+};
 int main()
 {
 	stack<string> strs;
