@@ -299,22 +299,83 @@ public:
 		return max(dp[prices.size() - 1][1], dp[prices.size() - 1][2]);
 	}
 };
-class Solution
+class Solution12
 {
 public:
 	int lengthOfLIS(vector<int> &nums)
 	{
 		vector<int> dp(nums.size(), 1);
-		for(int i = 1; i < nums.size(); i++)
+		for (int i = 1; i < nums.size(); i++)
 		{
-			for(int j = 0; j < i; j++)
+			for (int j = 0; j < i; j++)
 			{
-				if(nums[j] < nums[i])
-					dp[i] = max(dp[i],dp[j] + 1);					
+				if (nums[j] < nums[i])
+					dp[i] = max(dp[i], dp[j] + 1);
 			}
 		}
-		sort(dp.begin(),dp.end());
+		sort(dp.begin(), dp.end());
 		return dp[nums.size() - 1];
+	}
+};
+class Solution13
+{
+public:
+	vector<int> get_nums(int n)
+	{
+		vector<int> result;
+		int val = 1;
+		while (val * val <= n)
+		{
+			result.push_back(val * val);
+			val++;
+		}
+		return result;
+	}
+	int numSquares(int n)
+	{
+		vector<int> nums = get_nums(n);
+		vector<int> dp(n + 1, INT_MAX);
+		dp[0] = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			cout << nums[i] << " ";
+			for (int j = nums[i]; j <= n; j++)
+			{
+				if (dp[j - nums[i]] != INT_MAX)
+					dp[j] = min(dp[j], dp[j - nums[i]] + 1);
+			}
+		}
+		return dp[n];
+	}
+};
+class Solution
+{
+public:
+	int offset[2][2] = {{1, 0}, {0, 1}};
+	void dfs(vector<vector<int>> &matrix, vector<vector<bool>> &visited, int x, int y, bool &result, int target)
+	{
+		visited[x][y] = true;
+		if (matrix[x][y] == target)
+		{
+			result = true;
+			return;
+		}
+		for (int i = 0; i < 2; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= matrix.size() || nexty < 0 || nexty >= matrix[0].size())
+				continue;
+			if (matrix[nextx][nexty] <= target && visited[nextx][nexty] == false)
+				dfs(matrix, visited, nextx, nexty, result, target);
+		}
+	}
+	bool searchMatrix(vector<vector<int>> &matrix, int target)
+	{
+		vector<vector<bool>> visited(matrix.size(), vector<bool>(matrix[0].size(), false));
+		bool result = false;
+		dfs(matrix, visited, 0, 0, result, target);
+		return result;
 	}
 };
 int main()
