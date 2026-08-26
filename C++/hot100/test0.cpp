@@ -348,7 +348,7 @@ public:
 		return dp[n];
 	}
 };
-class Solution
+class Solution14
 {
 public:
 	int offset[2][2] = {{1, 0}, {0, 1}};
@@ -375,6 +375,99 @@ public:
 		vector<vector<bool>> visited(matrix.size(), vector<bool>(matrix[0].size(), false));
 		bool result = false;
 		dfs(matrix, visited, 0, 0, result, target);
+		return result;
+	}
+};
+
+class Codec
+{
+public:
+	// Encodes a tree to a single string.
+	string serialize(TreeNode *root)
+	{
+		if (root == NULL)
+			return "X";
+		queue<TreeNode *> que;
+		que.push(root);
+		string strs;
+		while (!que.empty())
+		{
+			auto it = que.front();
+			que.pop();
+			if (it)
+			{
+				strs += to_string(it->val);
+				que.push(it->left);
+				que.push(it->right);
+			}
+			else
+			{
+				strs += "X";
+			}
+		}
+		return strs;
+	}
+
+	// Decodes your encoded data to tree.
+	TreeNode *deserialize(string data)
+	{
+		if (data == "X")
+			return NULL;
+		TreeNode *root = new TreeNode(data[0] - '0');
+		queue<TreeNode *> que;
+		que.push(root);
+		int index = 1;
+		while (!que.empty())
+		{
+			auto it = que.front();
+			que.pop();
+			if (data[index] != 'X')
+			{
+				TreeNode *left = new TreeNode(data[index] - '0');
+				it->left = left;
+				que.push(left);
+			}
+			if (data[index + 1] != 'X')
+			{
+				TreeNode *right = new TreeNode(data[index + 1] - '0');
+				it->right = right;
+				que.push(right);
+			}
+			index += 2;
+		}
+		return root;
+	}
+};
+class Solution
+{
+private:
+	vector<string> result;
+	string path;
+
+public:
+	void dfs(int n, int left, int right)
+	{
+		if (path.size() == 2 * n)
+		{
+			result.push_back(path);
+			return;
+		}
+		if (left <= n)
+		{
+			path += "(";
+			dfs(n, left + 1, right);
+			path.pop_back();
+		}
+		if (right < left)
+		{
+			path += ")";
+			dfs(n, left, right + 1);
+			path.pop_back();
+		}
+	}
+	vector<string> generateParenthesis(int n)
+	{
+		dfs(n, 1, 1);
 		return result;
 	}
 };
