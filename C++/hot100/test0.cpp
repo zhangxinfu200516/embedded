@@ -487,7 +487,7 @@ public:
 		}
 	}
 };
-class Solution
+class Solution17
 {
 private:
 	vector<vector<int>> result;
@@ -518,6 +518,32 @@ public:
 		vector<bool> visited(nums.size(), false);
 		bt(nums, visited);
 		return result;
+	}
+};
+class Solution
+{
+public:
+	int trap(vector<int> &height)
+	{
+		int sum = 0;
+		for (int i = 1; i < height.size() - 1; i++)
+		{
+			int left_index = i - 1, left_max = 0;
+			while (left_index >= 0)
+			{
+				left_max = max(left_max, height[left_index]);
+				left_index--;
+			}
+			int right_index = i + 1, right_max = 0;
+			while (right_index < height.size())
+			{
+				right_max = max(right_max, height[right_index]);
+				right_index++;
+			}
+            cout << left_max << " " << right_max << " " << height[i] << endl;
+			sum += max(0, min(left_max, right_max) - height[i]);
+		}
+		return sum;
 	}
 };
 int main()
