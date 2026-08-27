@@ -438,7 +438,7 @@ public:
 		return root;
 	}
 };
-class Solution
+class Solution15
 {
 private:
 	vector<string> result;
@@ -468,6 +468,55 @@ public:
 	vector<string> generateParenthesis(int n)
 	{
 		dfs(n, 1, 1);
+		return result;
+	}
+};
+class Solution16
+{
+public:
+	void rotate(vector<vector<int>> &matrix)
+	{
+		int n = matrix.size();
+		vector<vector<int>> temp = matrix;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				matrix[j][n - 1 - i] = temp[i][j];
+			}
+		}
+	}
+};
+class Solution
+{
+private:
+	vector<vector<int>> result;
+	vector<int> path;
+
+public:
+	void bt(vector<int> nums, vector<bool> &visited)
+	{
+		if (path.size() == nums.size())
+		{
+			result.push_back(path);
+			return;
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (visited[i] == false)
+			{
+				path.push_back(nums[i]);
+				visited[i] = true;
+				bt(nums, visited);
+				visited[i] = false;
+				path.pop_back();
+			}
+		}
+	}
+	vector<vector<int>> permute(vector<int> &nums)
+	{
+		vector<bool> visited(nums.size(), false);
+		bt(nums, visited);
 		return result;
 	}
 };
