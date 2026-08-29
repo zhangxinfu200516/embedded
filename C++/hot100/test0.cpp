@@ -520,7 +520,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution18
 {
 public:
 	int trap(vector<int> &height)
@@ -540,10 +540,35 @@ public:
 				right_max = max(right_max, height[right_index]);
 				right_index++;
 			}
-            cout << left_max << " " << right_max << " " << height[i] << endl;
+			cout << left_max << " " << right_max << " " << height[i] << endl;
 			sum += max(0, min(left_max, right_max) - height[i]);
 		}
 		return sum;
+	}
+};
+class Solution
+{
+public:
+	void nextPermutation(vector<int> &nums)
+	{
+		for (int i = nums.size() - 1; i > 0; i--)
+		{
+			if (nums[i] > nums[i - 1])
+			{
+				// i-1 i
+				for (int j = nums.size() - 1; j >= 0; i--)
+				{
+					if (nums[j] > nums[i - 1])
+					{
+						swap(nums[j], nums[i - 1]);
+						sort(nums.begin() + i, nums.end());
+						return;
+					}
+				}
+			}
+		}
+		sort(nums.begin(), nums.end());
+		return;
 	}
 };
 int main()
