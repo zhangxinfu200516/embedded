@@ -546,7 +546,7 @@ public:
 		return sum;
 	}
 };
-class Solution
+class Solution19
 {
 public:
 	void nextPermutation(vector<int> &nums)
@@ -569,6 +569,112 @@ public:
 		}
 		sort(nums.begin(), nums.end());
 		return;
+	}
+};
+class Solution20
+{
+public:
+	void func(TreeNode *root, int &sum)
+	{
+		if (root == NULL)
+			return;
+		func(root->right, sum);
+		root->val += sum;
+		sum = root->val;
+		func(root->left, sum);
+	}
+	TreeNode *convertBST(TreeNode *root)
+	{
+		int sum = 0;
+		func(root, sum);
+		return root;
+	}
+};
+class Solution21
+{
+public:
+	int subarraySum(vector<int> &nums, int k)
+	{
+		int result;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			int sum = 0;
+			for (int j = i; j < nums.size(); j++)
+			{
+				sum += nums[i];
+				if (sum > nums[i])
+					break;
+				else if (sum == nums[i])
+				{
+					result++;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+};
+struct ListNode
+{
+	int val;
+	ListNode *next;
+	ListNode(int _val) : val(_val), next(NULL) {};
+};
+class Solution22
+{
+public:
+	vector<int> record;
+	void get_arr(ListNode *list)
+	{
+		ListNode *cur = list;
+		while (cur)
+		{
+			record.push_back(cur->val);
+			cur = cur->next;
+		}
+	}
+	ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
+	{
+		get_arr(list1);
+		get_arr(list2);
+		sort(record.begin(), record.end());
+		if (record.size() == 0)
+			return NULL;
+		ListNode *head = new ListNode(record[0]);
+		ListNode *cur = head;
+		for (int i = 1; i < record.size(); i++)
+		{
+			cur->next = new ListNode(record[i]);
+			cur = cur->next;
+		}
+		return head;
+	}
+};
+class Solution
+{
+public:
+	bool isValid(string s)
+	{	
+		stack<char> sta;
+		for(auto c : s)
+		{
+			if(c == '(' || c == '[' || c == '{')
+				sta.push(c);
+			else
+			{
+				if(sta.size() == 0)
+					break;
+				auto it = sta.top();
+				sta.pop();
+				if(it == '(' && c != ')')
+					return false;
+				else if(it == '[' && c != ']')
+					return false;
+				else if(it == '{' && c != '}')
+					return false;
+			}
+		}
+		return true;
 	}
 };
 int main()
