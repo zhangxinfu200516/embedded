@@ -650,31 +650,244 @@ public:
 		return head;
 	}
 };
-class Solution
+class Solution23
 {
 public:
 	bool isValid(string s)
-	{	
+	{
 		stack<char> sta;
-		for(auto c : s)
+		for (auto c : s)
 		{
-			if(c == '(' || c == '[' || c == '{')
+			if (c == '(' || c == '[' || c == '{')
 				sta.push(c);
 			else
 			{
-				if(sta.size() == 0)
+				if (sta.size() == 0)
 					break;
 				auto it = sta.top();
 				sta.pop();
-				if(it == '(' && c != ')')
+				if (it == '(' && c != ')')
 					return false;
-				else if(it == '[' && c != ']')
+				else if (it == '[' && c != ']')
 					return false;
-				else if(it == '{' && c != '}')
+				else if (it == '{' && c != '}')
 					return false;
 			}
 		}
 		return true;
+	}
+};
+class Solution24
+{
+public:
+	int lengthOfLongestSubstring(string s)
+	{
+		int result = 0;
+		for (int i = 0; i < s.size(); i++)
+		{
+			set<char> st;
+			for (int j = i; j < s.size(); j++)
+			{
+				if (st.find(s[j]) != st.end())
+				{
+					result = max(result, j - i);
+					break;
+				}
+				st.insert(s[j]);
+			}
+		}
+		return result;
+	}
+};
+class Solution25
+{
+public:
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+	{
+		int val1 = 0, val2 = 0;
+		ListNode *cur = l1;
+		int k = 1;
+		while (cur)
+		{
+			val1 += cur->val * k;
+			k *= 10;
+			cur = cur->next;
+		}
+		cur = l2;
+		k = 1;
+		while (cur)
+		{
+			val2 += cur->val * k;
+			k *= 10;
+			cur = cur->next;
+		}
+		int val3 = val1 + val2;
+		ListNode *head = new ListNode(val3 % 10);
+		cur = head;
+		val3 = val3 / 10;
+		while (val3)
+		{
+			cur->next = new ListNode(val3 % 10);
+			val3 /= 10;
+			cur = cur->next;
+		}
+		return head;
+	}
+};
+class Solution26
+{
+private:
+	int offset[4][2] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+	bool result = false;
+
+public:
+	void dfs(vector<vector<char>> &board, vector<vector<bool>> &visited, int x, int y, string word, int index)
+	{
+		if (index == word.size() - 1)
+		{
+			result = true;
+			return;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= board.size() || nexty < 0 || nexty >= board[0].size())
+				continue;
+			if (board[nextx][nexty] == word[index + 1] && visited[nextx][nexty] == false)
+			{
+				visited[nextx][nexty] = true;
+				dfs(board, visited, nextx, nexty, word, index + 1);
+				visited[nextx][nexty] = false;
+			}
+		}
+	}
+	bool exist(vector<vector<char>> &board, string word)
+	{
+		vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(), false));
+		for (int i = 0; i < board.size(); i++)
+		{
+			for (int j = 0; j < board[0].size(); j++)
+			{
+				if (board[i][j] == word[0])
+				{
+					visited[i][j] = true;
+					dfs(board, visited, i, j, word, 0);
+					visited[i][j] = false;
+				}
+			}
+		}
+		return false;
+	}
+};
+class Solution27
+{
+private:
+	unordered_set<int> st;
+
+public:
+	void get_set(TreeNode *root)
+	{
+		if (root == NULL)
+			return;
+		st.insert(root->val);
+		get_set(root->left);
+		get_set(root->right);
+	}
+	void flatten(TreeNode *root)
+	{
+		if (root == NULL)
+			return;
+		get_set(root);
+		vector<int> nums(st.begin(), st.end());
+		sort(nums.begin(), nums.end());
+		for (auto num : nums)
+			cout << num << " ";
+		TreeNode *cur = root, *pre = NULL; // 需要pre存储上一个节点：链接right，不然只是创建新节点是不会链接在root中的
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (cur)
+				cur->val = nums[i];
+			else
+			{
+				cur = new TreeNode(nums[i]);
+				pre->right = cur;
+			}
+			cur->left = NULL;
+			pre = cur;
+			cur = cur->right;
+		}
+	}
+};
+class Solution28
+{
+public:
+	int leastInterval(vector<char> &tasks, int n)
+	{
+		vector<int> nums(26, 0);
+		for (auto task : tasks)
+		{
+			nums[task - 'A']++;
+		}
+		int N = 0, count = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (nums[i] > N)
+			{
+				N = nums[i];
+				count = 1;
+			}
+			if (nums[i] == N)
+				count++;
+		}
+		int val1 = (N - 1) * (n + 1) + count;
+		int val2 = tasks.size();
+		return max(val1, val2);
+	}
+};
+class Solution29
+{
+public:
+	TreeNode *mergeTrees(TreeNode *root1, TreeNode *root2)
+	{
+		if (root1 == NULL && root2 == NULL)
+			return NULL;
+		if (root1 != NULL && root2 != NULL)
+			root1->val += root2->val;
+		else if (root1 == NULL && root2 != NULL)
+			return root2;
+		else if (root1 != NULL && root2 == NULL)
+			return root1;
+		root1->left = mergeTrees(root1->left, root2->left);
+		root1->right = mergeTrees(root1->right, root2->right);
+		return root1;
+	}
+};
+class Solution
+{
+public:
+	TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
+	{
+		if (preorder.size() == 0)
+			return NULL;
+		int root_val = preorder[0];
+		TreeNode *root = new TreeNode(root_val);
+		int index = 0;
+		for (int i = 0; i < preorder.size(); i++)
+		{
+			if (preorder[i] == root_val)
+			{
+				index = i;
+				break;
+			}
+		}
+		vector<int> pre_left(preorder.begin() + 1, preorder.begin() + 1 + index);
+		vector<int> pre_right(preorder.begin() + 1 + index, preorder.end());
+		vector<int> ino_left(inorder.begin(), inorder.begin() + index);
+		vector<int> ino_right(inorder.begin() + index + 1, inorder.end());
+		root->left = buildTree(pre_left, ino_left);
+		root->right = buildTree(pre_right, ino_right);
+		return root;
 	}
 };
 int main()
