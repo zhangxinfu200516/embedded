@@ -863,7 +863,7 @@ public:
 		return root1;
 	}
 };
-class Solution
+class Solution30
 {
 public:
 	TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
@@ -888,6 +888,137 @@ public:
 		root->left = buildTree(pre_left, ino_left);
 		root->right = buildTree(pre_right, ino_right);
 		return root;
+	}
+};
+class Solution31
+{
+public:
+	int maxDepth(TreeNode *root)
+	{
+		if (root == NULL)
+			return NULL;
+		int l = maxDepth(root->left);
+		int r = maxDepth(root->right);
+		return max(l, r) + 1;
+	}
+};
+class Solution32
+{
+private:
+	vector<vector<int>> result;
+
+public:
+	vector<vector<int>> levelOrder(TreeNode *root)
+	{
+		if (root == NULL)
+			return {};
+		queue<TreeNode *> que;
+		que.push(root);
+		while (!que.empty())
+		{
+			int n = que.size();
+			vector<int> path;
+			for (int i = 0; i < n; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				path.push_back(it->val);
+				if (it->left)
+					que.push(it->left);
+				if (it->right)
+					que.push(it->right);
+			}
+			result.push_back(path);
+		}
+		return result;
+	}
+};
+class Solution33
+{
+public:
+	bool check(TreeNode *left, TreeNode *right)
+	{
+		if (left == NULL && right == NULL)
+			return true;
+		if (left != NULL && right == NULL)
+			return false;
+		if (left == NULL && right != NULL)
+			return false;
+
+		if (left->val != right->val)
+			return false;
+		if (!check(left->left, right->right))
+			return false;
+		if (!check(left->right, right->left))
+			return false;
+		return true;
+	}
+	bool isSymmetric(TreeNode *root)
+	{
+		return check(root->left, root->right);
+	}
+};
+class Solution34
+{
+public:
+	vector<int> record;
+	void get_vector(TreeNode *root)
+	{
+		if (root == NULL)
+			return;
+		get_vector(root->left);
+		record.push_back(root->val);
+		get_vector(root->right);
+	}
+	bool isValidBST(TreeNode *root)
+	{
+		get_vector(root);
+		if (record.size() == 0)
+			return true;
+		for (auto num : record)
+			cout << num << " ";
+		for (int i = 0; i < record.size() - 1; i++)
+		{
+			if (record[i] > record[i + 1])
+				return false;
+		}
+		return true;
+	}
+};
+class Solution35
+{
+public:
+	int numTrees(int n)
+	{
+		vector<int> dp(n + 1, 0);
+		dp[0] = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				dp[i] += dp[j] * dp[i - 1 - j];
+			}
+		}
+		return dp[n];
+	}
+};
+class Solution36
+{
+private:
+	vector<int> result;
+public:
+	void get_result(TreeNode *root)
+	{
+		if(root == NULL)
+			return;
+		get_result(root->left);
+		result.push_back(root->val);
+		get_result(root->right);
+	}
+	vector<int> inorderTraversal(TreeNode *root)
+	{
+		get_result(root);
+		return result;
 	}
 };
 int main()
