@@ -1006,10 +1006,11 @@ class Solution36
 {
 private:
 	vector<int> result;
+
 public:
 	void get_result(TreeNode *root)
 	{
-		if(root == NULL)
+		if (root == NULL)
 			return;
 		get_result(root->left);
 		result.push_back(root->val);
@@ -1019,6 +1020,239 @@ public:
 	{
 		get_result(root);
 		return result;
+	}
+};
+class Solution37
+{
+public:
+	int get_result(vector<vector<int>> &matrix, int i)
+	{
+		int result = 0;
+		for (int j = 0; j < matrix[0].size(); j++)
+		{
+			int left = j - 1, right = j + 1;
+			while (left >= 0)
+			{
+				if (matrix[i][left] < matrix[i][j])
+					break;
+				left--;
+			}
+			while (right < matrix[0].size())
+			{
+				if (matrix[i][right] < matrix[i][j])
+					break;
+				right++;
+			}
+			int val = (right - left - 1) * matrix[i][j];
+			result = max(val, result);
+		}
+		return result;
+	}
+	int maximalRectangle(vector<vector<char>> &matrix)
+	{
+		vector<vector<int>> record(matrix.size(), vector<int>(matrix[0].size(), 0));
+		for (int i = 0; i < matrix.size(); i++)
+		{
+			for (int j = 0; j < matrix[0].size(); j++)
+			{
+				if (matrix[i][j] == '1')
+					record[i][j] = 1;
+				else
+					record[i][j] = 0;
+
+				if (i > 0)
+				{
+					if (record[i][j] != 0)
+						record[i][j] += record[i - 1][j];
+					else
+						record[i][j] = 0;
+				}
+			}
+		}
+		int result = 0;
+		for (int i = 0; i < record.size(); i++)
+		{
+			result = max(get_result(record, i), result);
+		}
+		return result;
+	}
+};
+class Solution38
+{
+public:
+	int largestRectangleArea(vector<int> &heights)
+	{
+		int result = 0;
+		for (int j = 0; j < heights.size(); j++)
+		{
+			int left = j - 1, right = j + 1;
+			while (left >= 0)
+			{
+				if (heights[left] < heights[j])
+					break;
+				left--;
+			}
+			while (right < heights.size())
+			{
+				if (heights[right] < heights[j])
+					break;
+				right++;
+			}
+			int val = (right - left - 1) * heights[j];
+			result = max(val, result);
+		}
+		return result;
+	}
+};
+class Solution39
+{
+public:
+	vector<int> twoSum(vector<int> &nums, int target)
+	{
+		for (int i = 0; i < nums.size() - 1; i++)
+		{
+			for (int j = i + 1; j < nums.size(); j++)
+			{
+				if (nums[i] + nums[j] == target)
+					return {i, j};
+			}
+		}
+		return {-1, -1};
+	}
+};
+class Solution40
+{
+private:
+	vector<vector<int>> result;
+	vector<int> path;
+
+public:
+	void dfs(vector<int> &nums, int start_index)
+	{
+		result.push_back(path);
+		for (int i = start_index; i < nums.size(); i++)
+		{
+			path.push_back(nums[i]);
+			dfs(nums, i + 1);
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> subsets(vector<int> &nums)
+	{
+		dfs(nums, 0);
+		return result;
+	}
+};
+class Solution41
+{
+public:
+	void sortColors(vector<int> &nums)
+	{
+		map<int, int> mp;
+		for (auto num : nums)
+			mp[num]++;
+		vector<int> result;
+		for (int i = 0; i <= 2; i++)
+		{
+			while (mp[i]--)
+			{
+				result.push_back(i);
+			}
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			nums[i] = result[i];
+		}
+	}
+};
+class Solution42
+{
+public:
+	int minDistance(string word1, string word2)
+	{
+		int m = word1.size(), n = word2.size();
+		vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+		for (int i = 0; i <= m; i++)
+			dp[i][0] = i;
+		for (int j = 0; j <= n; j++)
+			dp[0][j] = j;
+		for (int i = 1; i <= m; i++)
+		{
+			for (int j = 1; j <= n; j++)
+			{
+				if (word1[i - 1] == word2[j - 1])
+					dp[i][j] = dp[i - 1][j - 1];
+				else
+					dp[i][j] = min({dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]}) + 1;
+			}
+		}
+		for (int i = 0; i <= m; i++)
+		{
+			for (int j = 0; j <= n; j++)
+				cout << dp[i][j] << " ";
+			cout << endl;
+		}
+		return dp[m][n];
+	}
+};
+class Solution43
+{
+public:
+	int climbStairs(int n)
+	{
+		vector<int> dp(n + 1, 0);
+		dp[0] = 1;
+		dp[1] = 1;
+		for (int i = 2; i <= n; i++)
+			dp[i] = dp[i - 1] + dp[i - 2];
+		return dp[n];
+	}
+};
+class Solution44
+{
+public:
+	int findUnsortedSubarray(vector<int> &nums)
+	{
+		int i = 0, j = nums.size() - 1;
+		while (i < nums.size() - 1)
+		{
+			if (nums[i] > nums[i + 1])
+				break;
+			i++;
+		}
+		while (j > 0)
+		{
+			if (nums[j] < nums[j - 1])
+				break;
+			j--;
+		}
+		if (j <= i)
+			return 0;
+		return j - i + 1;
+	}
+};
+class Solution45
+{
+public:
+	int findUnsortedSubarray(vector<int> &nums)
+	{
+		int num_max = nums[0], end = -1;
+		for(int i = 0; i < nums.size(); i++)
+		{
+			if(nums[i] >= num_max)
+				num_max = nums[i];
+			else
+				end = i;
+		}	
+		int num_min = nums[nums.size() - 1], begin = 0;
+		for(int j = nums.size() - 1; j >= 0; j--)
+		{
+			if(nums[j] <= num_min)
+				num_min = nums[j];
+			else
+				begin = j;
+		}
+		return end - begin + 1;
 	}
 };
 int main()
