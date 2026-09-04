@@ -1237,22 +1237,180 @@ public:
 	int findUnsortedSubarray(vector<int> &nums)
 	{
 		int num_max = nums[0], end = -1;
-		for(int i = 0; i < nums.size(); i++)
+		for (int i = 0; i < nums.size(); i++)
 		{
-			if(nums[i] >= num_max)
+			if (nums[i] >= num_max)
 				num_max = nums[i];
 			else
 				end = i;
-		}	
+		}
 		int num_min = nums[nums.size() - 1], begin = 0;
-		for(int j = nums.size() - 1; j >= 0; j--)
+		for (int j = nums.size() - 1; j >= 0; j--)
 		{
-			if(nums[j] <= num_min)
+			if (nums[j] <= num_min)
 				num_min = nums[j];
 			else
 				begin = j;
 		}
 		return end - begin + 1;
+	}
+};
+class Solution46
+{
+private:
+	int result = INT_MAX;
+	int offset[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+public:
+	void dfs(vector<vector<int>> &grid, vector<vector<bool>> &visited, int x, int y, int &sum)
+	{
+		if (x == grid.size() - 1 && y == grid[0].size() - 1)
+		{
+			result = min(sum, result);
+			return;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= grid.size() || nexty < 0 || nexty >= grid[0].size())
+				continue;
+			if (visited[nextx][nexty] == false)
+			{
+				sum += grid[nextx][nexty];
+				visited[x][y] = true;
+				dfs(grid, visited, nextx, nexty, sum);
+				visited[x][y] = false;
+				sum -= grid[nextx][nexty];
+			}
+		}
+	}
+	int minPathSum(vector<vector<int>> &grid)
+	{
+		vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size(), false));
+		int sum = grid[0][0];
+		dfs(grid, visited, 0, 0, sum);
+		return result;
+	}
+};
+class Solution47
+{
+public:
+	int uniquePaths(int m, int n)
+	{
+		vector<vector<int>> dp(m, vector<int>(n, 0));
+		for (int i = 0; i < m; i++)
+			dp[i][0] = 1;
+		for (int j = 0; j < n; j++)
+			dp[0][j] = 1;
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n; j++)
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+		}
+		return dp[m - 1][n - 1];
+	}
+};
+class Solution48
+{
+public:
+	static bool func(const vector<int> &nums1, const vector<int> &nums2)
+	{
+		return nums1[0] < nums2[0];
+	}
+	vector<vector<int>> merge(vector<vector<int>> &intervals)
+	{
+		sort(intervals.begin(), intervals.end(), func);
+		vector<vector<int>> result;
+		int index = 0;
+		for (int i = 0; i < intervals.size() - 1; i++)
+		{
+			if (intervals[i][1] >= intervals[i + 1][0] &&
+				intervals[i][0] <= intervals[i + 1][0])
+			{
+				result.push_back({intervals[i][0], intervals[i + 1][1]});
+				index = i + 1;
+			}
+		}
+		for (int i = index + 1; i < intervals.size(); i++)
+			result.push_back(intervals[i]);
+		return result;
+	}
+};
+class Solution49
+{
+public:
+	vector<vector<int>> merge(vector<vector<int>> &intervals)
+	{
+		vector<vector<int>> result;
+		sort(intervals.begin(), intervals.end());
+		for (int i = 0; i < intervals.size(); i++)
+		{
+			int left = intervals[i][0];
+			int right = intervals[i][1];
+			while (i < intervals.size() - 1 && right >= intervals[i + 1][0])
+			{
+				right = max(right, intervals[i + 1][1]);
+				i++;
+			}
+			result.push_back({left, right});
+		}
+		return result;
+	}
+};
+class Solution50
+{
+public:
+	bool canJump(vector<int> &nums)
+	{
+		vector<bool> record(nums.size(), false);
+		record[0] = true;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (nums[i] != 0 && record[i] == true)
+			{
+				int count = 0;
+				while (count <= nums[i] && count + i < nums.size())
+				{
+					record[i + count] = true;
+					count++;
+				}
+			}
+		}
+		return record[nums.size() - 1];
+	}
+};
+class Solution51
+{
+public:
+	bool canJump(vector<int> &nums)
+	{
+		int max_jump = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (i > max_jump)
+				return false;
+			max_jump = max(max_jump, i + nums[i]);
+		}
+		return true;
+	}
+};
+class Solution52
+{
+public:
+	int maxSubArray(vector<int> &nums)
+	{
+		int result = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			int sum = 0;
+			for (int j = i; j < nums.size(); j++)
+			{
+				sum += nums[j];
+				result = max(sum, result);
+			}
+		}
+		return result;
 	}
 };
 int main()
