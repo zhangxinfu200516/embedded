@@ -86,6 +86,35 @@ Tree_Node *prune(Tree_Node *root, int sumFromParent)
 	root->right = prune(root->right, curSum);
 	return root;
 }
+Tree_Node *rule1(Tree_Node *root, int sum)//不可使用引用，这样回导致递归完左子树后，sum没有回溯，污染了右子树的处理
+{
+	if (root == NULL)
+		return NULL;
+	sum += root->val;
+	if (sum <= 0)
+		return NULL;
+	root->left = rule1(root->left, sum);
+	root->right = rule1(root->right, sum);
+	return root;
+}
+Tree_Node *rule2(Tree_Node *root)
+{
+	if(root == NULL)
+		return NULL;
+	if(root->left == NULL && root->right != NULL)
+	{
+		root->right->val += root->val;
+		return rule2(root->right);//在不可直接返回root->right，因为规则要求子树也要合并单节点
+	}
+	if(root->left != NULL && root->right == NULL)
+	{
+		root->left->val += root->val;
+		return rule2(root->left);////在不可直接返回root->right，因为规则要求子树也要合并单节点
+	}
+	root->left = rule2(root->left);
+	root->right = rule2(root->right);
+	return root;
+}
 void func2(Tree_Node *root)
 {
 	if (!root)
@@ -133,9 +162,9 @@ int main()
 	Tree_Node *root = get_Tree(forward, middle);
 	int sum = 0;
 	// 前序遍历处理规则1
-	prune(root, sum);
+	rule1(root, sum);
 	// 后续遍历处理规则2
-	func2(root);
+	rule2(root);
 	// 后续遍历输出结果
 	vector<int> result;
 	back(root, result);
@@ -144,3 +173,4 @@ int main()
 		cout << result[i] << " ";
 	}
 }
+

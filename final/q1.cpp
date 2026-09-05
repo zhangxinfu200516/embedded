@@ -66,6 +66,7 @@ int main()
 	}
 }
 #endif
+#ifdef Q11
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -120,4 +121,49 @@ int main()
 		cout << l << " " << r << endl;
 	}
 	cout << l;
+}
+#endif
+#include <bits\stdc++.h>
+using namespace std;
+int func(int val, vector<int> nums)
+{
+	int result = 0;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		int k = 1;
+		while (val * k - nums[i] < 0)
+			k++;
+		result += k;
+	}
+	return result;
+}
+int main()
+{
+	int n, h;
+	cin >> n;
+	vector<int> nums(n, 0);
+	for (int i = 0; i < n; i++)
+		cin >> nums[i];
+	cin >> h;
+	sort(nums.begin(), nums.end());
+	int min_val = nums[0];
+	int max_val = nums[nums.size() - 1];
+	if (n > h)
+		return -1;
+	else if (n == h)
+	{
+		cout << max_val;
+		return 0;
+	}
+	int result = INT_MAX;
+	for (int j = min_val; j <= max_val; j++)
+	{
+		int record = func(j, nums);
+		if (record <= h)
+			result = min(result, j);
+	}
+	if(result == INT_MAX)
+		return -1;
+	cout << result;
+	return 0;
 }
