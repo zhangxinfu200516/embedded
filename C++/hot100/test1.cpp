@@ -36,7 +36,7 @@ struct TreeNode
 	TreeNode *right;
 	TreeNode(int _val) : val(_val), left(NULL), right(NULL) {};
 };
-class Solution
+class Solution02
 {
 public:
 	TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
@@ -52,6 +52,43 @@ public:
 		else if (left != NULL && right == NULL)
 			return left;
 		return NULL;
+	}
+};
+class Solution03
+{
+public:
+	bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+	{
+		map<int, int> mp;
+		for (int i = 0; i < prerequisites.size(); i++)
+			mp[prerequisites[i][0]] = prerequisites[i][1];
+		for (int i = 0; i < prerequisites.size(); i++)
+		{
+			int target = prerequisites[i][1];
+			while (mp.find(target) != mp.end())
+			{
+				if (mp[target] == prerequisites[i][0])
+					return false;
+				target = mp[target];
+			}
+		}
+		return true;
+	}
+};
+class Solution
+{
+public:
+	ListNode *reverseList(ListNode *head)
+	{
+		ListNode *cur = head, *pre = NULL, *next = NULL;
+		while(cur)
+		{
+			next = cur->next;
+			cur->next = pre;
+			pre = cur;
+			cur = next;
+		}
+		return pre;
 	}
 };
 int main()
