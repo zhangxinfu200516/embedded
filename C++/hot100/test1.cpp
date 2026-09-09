@@ -193,6 +193,122 @@ public:
 		return false;
 	}
 };
+class Solution08
+{
+private:
+	vector<string> st;
+	inline bool is_true(string s)
+	{
+		for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+		{
+			if (s[i] != s[j])
+				return false;
+		}
+		return true;
+	}
+
+public:
+	void bt(string s, int start_index)
+	{
+		if (start_index == s.size())
+			return;
+		for (int i = start_index; i < s.size(); i++)
+		{
+			string temp = s.substr(start_index, i - start_index + 1);
+			if (is_true(temp))
+				st.push_back(temp);
+			bt(s, i + 1);
+		}
+	}
+	int countSubstrings(string s)
+	{
+		bt(s, 0);
+		for (string it : st)
+			cout << it << " ";
+		return st.size();
+	}
+};
+class Solution09
+{
+private:
+	set<int> st;
+
+public:
+	int longestConsecutive(vector<int> &nums)
+	{
+		for (auto num : nums)
+			st.insert(num);
+		int result = 1;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (st.find(nums[i] - 1) == st.end())
+			{
+				int count = 0;
+				int target = nums[i];
+				while (st.find(target + 1) != st.end())
+				{
+					count++;
+					target++;
+				}
+				result = max(result, count);
+			}
+		}
+		return result;
+	}
+};
+class Solution10
+{
+public:
+	int coinChange(vector<int> &coins, int amount)
+	{
+		vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, INT_MAX));
+		for (int i = 0; i < coins.size(); i++)
+			dp[i][0] = 0;
+		for (int j = coins[0]; j <= amount; j++)
+		{
+			if (j % coins[0] == 0)
+				dp[0][j] = j / coins[0];
+		}
+		for (int i = 1; i < coins.size(); i++)
+		{
+			for (int j = 1; j <= amount; j++)
+			{
+				if (j >= coins[i] && dp[i][j - coins[i]] != INT_MAX)
+					dp[i][j] = min(dp[i - 1][j], dp[i][j - coins[i]] + 1);
+				else
+					dp[i][j] = dp[i - 1][j];
+			}
+		}
+		if (dp[coins.size() - 1][amount] == INT_MAX)
+			return -1;
+		else
+			return dp[coins.size() - 1][amount];
+	}
+};
+class Solution11
+{
+public:
+	int findTargetSumWays(vector<int> &nums, int target)
+	{
+		int sum = 0;
+		for (auto num : nums)
+			sum += num;
+		if ((sum + target) % 2)
+			return 0;
+		int n = (sum + target) / 2;
+		vector<int> dp(n + 1, 0);
+		dp[0] = 1;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = n; j >= nums[i]; j--)
+				dp[j] = dp[j] + dp[j - nums[i]];
+			for (int j = 0; j <= n; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		return dp[n];
+	}
+};
 int main()
 {
 }
