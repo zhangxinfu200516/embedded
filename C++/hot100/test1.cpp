@@ -309,6 +309,91 @@ public:
 		return dp[n];
 	}
 };
+class Solution12
+{
+public:
+	bool is_true(string s1, string s2)
+	{
+		if (s1.size() != s2.size())
+			return false;
+		map<char, int> mp;
+		for (int i = 0; i < s1.size(); i++)
+		{
+			mp[s1[i]]++;
+			mp[s2[i]]--;
+		}
+		for (auto &it : mp)
+		{
+			if (it.second != 0)
+				return false;
+		}
+		return true;
+	}
+	vector<int> findAnagrams(string s, string p)
+	{
+		vector<int> result;
+		for (int i = 0; i < s.size(); i++)
+		{
+			for (int j = i; j < s.size(); j++)
+			{
+				string temp = s.substr(i, j - i + 1);
+				if (is_true(temp, p))
+					result.push_back(i);
+			}
+		}
+		return result;
+	}
+};
+class Solution13
+{
+public:
+	void dfs(TreeNode *root, int &sum, int targetSum, int &result)
+	{
+		if (root == NULL)
+			return;
+		sum += root->val;
+		if (sum == targetSum)
+			result++;
+		dfs(root->left, sum, targetSum, result);
+		dfs(root->right, sum, targetSum, result);
+		sum -= root->val;
+	}
+	int pathSum(TreeNode *root, int targetSum)
+	{
+		int sum1 = 0, sum2 = 0;
+		int result1 = 0, result2 = 0;
+		dfs(root->left, sum1, targetSum, result1);
+		dfs(root->right, sum2, targetSum, result2);
+		return result1 + result2;
+	}
+};
+class Solution14
+{
+private:
+	unordered_map<int, int> umap;
+	int result;
+
+public:
+	void dfs(TreeNode *root, int sum, int targetSum)
+	{
+		if (root == NULL)
+			return;
+		sum += root->val;
+		if (umap[sum - targetSum] != 0)
+			result += umap[sum - targetSum];
+		umap[sum]++;
+		dfs(root->left, sum, targetSum);
+		dfs(root->right, sum, targetSum);
+		umap[sum]--;
+	}
+	int pathSum(TreeNode *root, int targetSum)
+	{
+		umap[0] = 1;
+		int sum = 0;
+		dfs(root, sum, targetSum);
+		return result;
+	}
+};
 int main()
 {
 }
