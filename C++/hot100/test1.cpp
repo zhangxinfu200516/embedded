@@ -394,7 +394,7 @@ public:
 		return result;
 	}
 };
-class Solution
+class Solution15
 {
 
 public:
@@ -413,6 +413,133 @@ public:
 			result.insert(result.begin() + people[i][1], people[i]);
 		}
 		return result;
+	}
+};
+class Solution
+{
+public:
+	vector<int> topKFrequent(vector<int> &nums, int k)
+	{
+		map<int, int> mp;
+		for (int num : nums)
+			mp[num]++;
+		vector<vector<int>> record;
+		for (auto &it : mp)
+		{
+			record.push_back({it.second, it.first});
+		}
+		sort(record.begin(), record.end());
+		vector<int> result;
+		for (int i = 0; i < k; i++)
+			result.push_back(record[i][1]);
+		return result;
+	}
+};
+class Solution16
+{
+public:
+	string decodeString(string s)
+	{
+		stack<int> sta_i;
+		stack<string> sta_s;
+		int count = 0;
+		string cur = "";
+		for (int i = 0; i < s.size(); i++)
+		{
+			if (s[i] - '0' > 0 && s[i] - '0' <= 9)
+				count = s[i] - '0' + count * 10;
+			else if (s[i] - 'a' >= 0 && s[i] - 'z' <= 0)
+				cur += s[i];
+			else if (s[i] == '[')
+			{
+				sta_i.push(count);
+				sta_s.push(cur);
+				count = 0;
+				cur = "";
+			}
+			else
+			{
+				int val = sta_i.top();
+				sta_i.pop();
+				for (int i = 0; i < val; i++)
+					sta_s.top() += cur;
+				cur = sta_s.top();
+				sta_s.pop();
+			}
+		}
+		return cur;
+	}
+};
+class Solution17
+{
+public:
+	vector<int> topKFrequent(vector<int> &nums, int k)
+	{
+		map<int, int> mp;
+		for (int num : nums)
+			mp[num]++;
+		vector<vector<int>> record;
+		for (auto &it : mp)
+		{
+			record.push_back({it.second, it.first});
+		}
+		sort(record.begin(), record.end());
+		for (int i = 0; i < record.size(); i++)
+		{
+			cout << record[i][0] << " " << record[i][1] << endl;
+		}
+		vector<int> result;
+		for (int i = record.size() - k; i < record.size(); i++)
+			result.push_back(record[i][1]);
+		return result;
+	}
+};
+class Solution18
+{
+public:
+	int rob(TreeNode *root)
+	{
+		queue<TreeNode *> que;
+		que.push(root);
+		int count = 0, sum1 = 0, sum2 = 0;
+		while (!que.empty())
+		{
+			int size = que.size();
+			for (int i = 0; i < size; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				if (count % 2)
+					sum1 += it->val;
+				else
+					sum2 += it->val;
+				if (it->left)
+					que.push(it->left);
+				if (it->right)
+					que.push(it->right);
+			}
+			count++;
+		}
+		return max(sum1, sum2);
+	}
+};
+class Solution19
+{
+public:
+	pair<int, int> dfs(TreeNode *root)
+	{
+		if (root == NULL)
+			return {0, 0};
+		auto left = dfs(root->left);
+		auto right = dfs(root->right);
+		int cur_use = root->val + left.second + right.second;
+		int cur_notuse = max(left.first, left.second) + max(right.first, right.second);
+		return {cur_use, cur_notuse};
+	}
+	int rob(TreeNode *root)
+	{
+		auto it = dfs(root);
+		return max(it.first, it.second);
 	}
 };
 int main()
