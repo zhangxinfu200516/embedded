@@ -592,6 +592,84 @@ public:
 		return dp[nums.size() - 1];
 	}
 };
+class Codec
+{
+public:
+	// Encodes a tree to a single string.
+	string serialize(TreeNode *root)
+	{
+		string cur = "";
+		if (root == NULL)
+			return cur;
+		queue<TreeNode *> que;
+		que.push(root);
+		while (!que.empty())
+		{
+			auto it = que.front();
+			que.pop();
+			if (it != NULL)
+			{
+				cur += to_string(it->val);
+				que.push(it->left);
+				que.push(it->right);
+			}
+			else
+				cur += 'X';
+		}
+		return cur;
+	}
+
+	// Decodes your encoded data to tree.
+	TreeNode *deserialize(string data)
+	{
+		if (data.size() == 0)
+			return NULL;
+		TreeNode *root = new TreeNode(data[0] - '0');
+		queue<TreeNode *> que;
+		que.push(root);
+		int cur_index = 0;
+		while (!que.empty())
+		{
+			auto it = que.front();
+			que.pop();
+			if (data[cur_index + 1] != 'X')
+			{
+				TreeNode *left = new TreeNode(data[cur_index + 1] - '0');
+				que.push(left);
+				it->left = left;
+			}
+			if (data[cur_index + 2] != 'X')
+			{
+				TreeNode *right = new TreeNode(data[cur_index + 2] - '0');
+				que.push(right);
+				it->right = right;
+			}
+            cur_index += 2;
+		}
+		return root;
+	}
+};
+class Solution23
+{
+public:
+	int dfs(TreeNode *root, int &result)
+	{
+		if (root == NULL)
+			return 0;
+		int left = dfs(root->left, result);
+		int right = dfs(root->right, result);
+		result = max(result, left + right);
+		return max(left, right) + 1;
+	}
+	int diameterOfBinaryTree(TreeNode *root)
+	{
+		if (root == NULL)
+			return 0;
+		int result = 0;
+		dfs(root, result);
+		return result;
+	}
+};
 int main()
 {
 }
