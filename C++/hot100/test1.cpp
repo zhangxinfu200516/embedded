@@ -644,7 +644,7 @@ public:
 				que.push(right);
 				it->right = right;
 			}
-            cur_index += 2;
+			cur_index += 2;
 		}
 		return root;
 	}
@@ -668,6 +668,34 @@ public:
 		int result = 0;
 		dfs(root, result);
 		return result;
+	}
+};
+class Solution24
+{
+public:
+	int trap(vector<int> &height)
+	{
+		int n = height.size();
+		vector<int> left_max(n, 0);
+		vector<int> right_max(n, 0);
+		int left = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (left < height[i])
+				left = height[i];
+			left_max[i] = left;
+		}
+		int right = 0;
+		for (int j = n - 1; j >= 0; j--)
+		{
+			if (right < height[j])
+				right = height[j];
+			right_max[j] = right;
+		}
+		int sum = 0;
+		for (int k = 1; k < n - 1; k++)
+			sum += max(0, min(left_max[k - 1], right_max[k + 1]) - height[k]);
+		return sum;
 	}
 };
 int main()
