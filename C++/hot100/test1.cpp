@@ -698,6 +698,52 @@ public:
 		return sum;
 	}
 };
+class Solution25
+{
+public:
+	ListNode *detectCycle(ListNode *head)
+	{
+		ListNode *fast = head, *slow = head;
+		while (1)
+		{
+			if (fast == NULL || fast->next == NULL)
+				return NULL;
+			fast = fast->next->next;
+			slow = slow->next;
+			if (fast == slow)
+				break;
+		}
+		fast = head;
+		while (fast != slow)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+		return slow;
+	}
+};
+class Solution26
+{
+public:
+	int findDuplicate(vector<int> &nums)
+	{
+		int fast = 0, slow = 0;
+		while(1)
+		{
+			fast = nums[nums[fast]];
+			slow = nums[slow];
+			if(fast == slow)
+				break;
+		}
+		fast = 0;
+		while(fast != slow)
+		{
+			fast = nums[fast];
+			slow = nums[slow];
+		}
+		return fast;
+	}
+};
 int main()
 {
 }
