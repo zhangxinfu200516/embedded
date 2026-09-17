@@ -728,20 +728,49 @@ public:
 	int findDuplicate(vector<int> &nums)
 	{
 		int fast = 0, slow = 0;
-		while(1)
+		while (1)
 		{
 			fast = nums[nums[fast]];
 			slow = nums[slow];
-			if(fast == slow)
+			if (fast == slow)
 				break;
 		}
 		fast = 0;
-		while(fast != slow)
+		while (fast != slow)
 		{
 			fast = nums[fast];
 			slow = nums[slow];
 		}
 		return fast;
+	}
+};
+class Solution
+{
+public:
+	vector<vector<int>> levelOrder(TreeNode *root)
+	{
+		if(root == NULL)
+			return {};
+		vector<vector<int>> result;
+		queue<TreeNode *> que;
+		que.push(root);
+		while(!que.empty())
+		{
+			int size = que.size();
+			vector<int> path;
+			for(int i = 0; i < size; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				path.push_back(it->val);
+				if(it->left)
+					que.push(it->left);
+				if(it->right)
+					que.push(it->right);
+			}
+			result.push_back(path);
+		}
+		return result;
 	}
 };
 int main()
