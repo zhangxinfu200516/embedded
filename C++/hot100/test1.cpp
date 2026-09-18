@@ -744,33 +744,112 @@ public:
 		return fast;
 	}
 };
-class Solution
+class Solution27
 {
 public:
 	vector<vector<int>> levelOrder(TreeNode *root)
 	{
-		if(root == NULL)
+		if (root == NULL)
 			return {};
 		vector<vector<int>> result;
 		queue<TreeNode *> que;
 		que.push(root);
-		while(!que.empty())
+		while (!que.empty())
 		{
 			int size = que.size();
 			vector<int> path;
-			for(int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
 				auto it = que.front();
 				que.pop();
 				path.push_back(it->val);
-				if(it->left)
+				if (it->left)
 					que.push(it->left);
-				if(it->right)
+				if (it->right)
 					que.push(it->right);
 			}
 			result.push_back(path);
 		}
 		return result;
+	}
+};
+class Solution28
+{
+public:
+	vector<int> get_nums(int n)
+	{
+		vector<int> result;
+		int val = 1;
+		while (val * val <= n)
+		{
+			result.push_back(val * val);
+			val++;
+		}
+		return result;
+	}
+	int numSquares(int n)
+	{
+		vector<int> nums = get_nums(n);
+		vector<int> dp(n + 1, INT_MAX);
+		dp[0] = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = nums[i]; j <= n; j++)
+				dp[j] = min(dp[j], dp[j - nums[i]] + 1);
+		}
+		return dp[n];
+	}
+};
+class Solution29
+{
+public:
+	int offset[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+	bool result = false;
+	void dfs(vector<vector<int>> &matrix, vector<vector<bool>> &visited, int x, int y, int target)
+	{
+		visited[x][y] = true;
+		if (matrix[x][y] == target)
+		{
+			result = true;
+			return;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= matrix.size() || nexty < 0 || nexty >= matrix[0].size())
+				continue;
+			if (visited[nextx][nexty] == false)
+				dfs(matrix, visited, nextx, nexty, target);
+		}
+	}
+	bool searchMatrix(vector<vector<int>> &matrix, int target)
+	{
+		vector<vector<bool>> visited(matrix.size(), vector<bool>(matrix[0].size(), false));
+		dfs(matrix, visited, 0, 0, target);
+		return result;
+	}
+};
+class Solution30
+{
+public:
+	bool searchMatrix(vector<vector<int>> &matrix, int target)
+	{
+		for (int i = 0; i < matrix.size(); i++)
+		{
+			int left = 0, right = matrix[0].size() - 1;
+			while (left <= right)
+			{
+				int mid = (left + right) / 2;
+				if (matrix[i][mid] > target)
+					right = mid - 1;
+				else if (matrix[i][mid] < target)
+					left = mid + 1;
+				else
+					return true;
+			}
+		}
+		return false;
 	}
 };
 int main()
