@@ -852,6 +852,146 @@ public:
 		return false;
 	}
 };
+class Solution31
+{
+private:
+	string path;
+	vector<string> result;
+
+public:
+	void dfs(int n, int left, int right)
+	{
+		if (path.size() == 2 * n)
+		{
+			result.push_back(path);
+			return;
+		}
+		if (left < n)
+		{
+			path += '(';
+			dfs(n, left + 1, right);
+			path.pop_back();
+		}
+		if (right < left)
+		{
+			path += ')';
+			dfs(n, left, right + 1);
+			path.pop_back();
+		}
+	}
+	vector<string> generateParenthesis(int n)
+	{
+		dfs(n, 0, 0);
+		return result;
+	}
+};
+class Solution32
+{
+public:
+	bool is_true(string s1, string s2)
+	{
+		if (s1.size() != s2.size())
+			return false;
+		unordered_map<char, int> umap;
+		for (int i = 0; i < s1.size(); i++)
+		{
+			umap[s1[i]]++;
+			umap[s2[i]]--;
+		}
+		for (auto &it : umap)
+		{
+			if (it.second != 0)
+				return false;
+		}
+		return true;
+	}
+	vector<vector<string>> groupAnagrams(vector<string> &strs)
+	{
+		vector<bool> visited(strs.size(), false);
+		vector<vector<string>> result;
+		for (int i = 0; i < strs.size(); i++)
+		{
+			if (visited[i])
+				continue;
+			vector<string> path;
+			for (int j = i; j < strs.size(); j++)
+			{
+				if (is_true(strs[i], strs[j]))
+				{
+					path.push_back(strs[j]);
+					visited[j] = true;
+				}
+			}
+			result.push_back(path);
+		}
+		return result;
+	}
+};
+class Solution33
+{
+public:
+	vector<vector<string>> groupAnagrams(vector<string> &strs)
+	{
+		unordered_map<string, vector<string>> umap;
+		for (auto str : strs)
+		{
+			string key = str;
+			sort(key.begin(), key.end());
+			umap[key].push_back(str);
+		}
+		vector<vector<string>> result;
+		for (auto &it : umap)
+			result.push_back(it.second);
+		return result;
+	}
+};
+class Solution34
+{
+public:
+	void rotate(vector<vector<int>> &matrix)
+	{
+		vector<vector<int>> temp = matrix;
+		for (int i = 0; i < matrix.size(); i++)
+		{
+			for (int j = 0; j < matrix[0].size(); j++)
+				matrix[j][matrix.size() - 1 - i] = temp[i][j];
+		}
+	}
+};
+class Solution35
+{
+private:
+	vector<int> path;
+	vector<vector<int>> result;
+
+public:
+	void dfs(vector<int> &nums, vector<bool> &visited)
+	{
+		if (path.size() == nums.size())
+		{
+			result.push_back(path);
+			return;
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (visited[i])
+				continue;
+			path.push_back(nums[i]);
+			visited[i] = true;
+			dfs(nums, visited);
+			visited[i] = false;
+			path.pop_back();
+		}
+	}
+	vector<vector<int>> permute(vector<int> &nums)
+	{
+		vector<bool> visited(nums.size(), false);
+		dfs(nums, visited);
+		return result;
+	}
+};
 int main()
 {
+	Solution32 s;
+	cout << s.is_true("tae", "tea");
 }
