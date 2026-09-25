@@ -1008,6 +1008,132 @@ public:
 		return result;
 	}
 };
+class Solution37
+{
+private:
+	vector<int> nums;
+
+public:
+	void get_nums(ListNode *list)
+	{
+		ListNode *cur = list;
+		while (cur)
+		{
+			nums.push_back(cur->val);
+			cur = cur->next;
+		}
+	}
+	ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
+	{
+		get_nums(list1);
+		get_nums(list2);
+		if (nums.size() == 0)
+			return NULL;
+		sort(nums.begin(), nums.end());
+		for (int num : nums)
+			cout << num << " ";
+		ListNode *list = new ListNode(nums[0]);
+		ListNode *cur = list;
+		for (int i = 1; i < nums.size(); i++)
+		{
+			cur->next = new ListNode(nums[i]);
+			cur = cur->next;
+		}
+		return list;
+	}
+};
+class Solution38
+{
+public:
+	bool isValid(string s)
+	{
+		if (s.size() % 2)
+			return false;
+		stack<char> sta;
+		for (int i = 0; i < s.size(); i++)
+		{
+			if ((s[i] == '(') || (s[i] == '[') || (s[i] == '{'))
+				sta.push(s[i]);
+			else
+			{
+				if (sta.size() == 0)
+					return false;
+				char it = sta.top();
+				sta.pop();
+				if (s[i] == ')' && it != '(')
+					return false;
+				if (s[i] == ']' && it != '[')
+					return false;
+				if (s[i] == '}' && it != '{')
+					return false;
+			}
+		}
+		if (sta.size() > 0)
+			return false;
+		else
+			return true;
+	}
+};
+class Solution39
+{
+public:
+	ListNode *removeNthFromEnd(ListNode *head, int n)
+	{
+		ListNode *new_head = new ListNode(0);
+		new_head->next = head;
+		ListNode *slow = new_head, *fast = new_head;
+		while (n--)
+			fast = fast->next;
+		while (fast->next)
+		{
+			fast = fast->next;
+			slow = slow->next;
+		}
+		ListNode *cur = slow->next;
+		slow->next = slow->next->next;
+		delete cur;
+		return new_head->next;
+	}
+};
+class Solution40
+{
+private:
+	string strs[10] = {
+		"0",
+		"1",
+		"abc",
+		"def",
+		"ghi",
+		"jkl",
+		"mno",
+		"pqrs",
+		"tuv",
+		"wxyz"
+	};
+	string path = "";
+	vector<string> result;
+public:
+	void dfs(string digits, int index)
+	{
+		if(index == digits.size())
+		{
+			result.push_back(path);
+			return;
+		}
+		string str = strs[digits[index] - '0'];
+		for(int i = 0; i < str.size(); i++)
+		{
+			path.push_back(str[i]);
+			dfs(digits, index + 1);
+			path.pop_back();
+		}
+	}
+	vector<string> letterCombinations(string digits)
+	{
+		dfs(digits, 0);
+		return result;
+	}
+};
 int main()
 {
 	Solution32 s;
