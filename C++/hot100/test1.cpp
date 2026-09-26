@@ -1108,20 +1108,20 @@ private:
 		"mno",
 		"pqrs",
 		"tuv",
-		"wxyz"
-	};
+		"wxyz"};
 	string path = "";
 	vector<string> result;
+
 public:
 	void dfs(string digits, int index)
 	{
-		if(index == digits.size())
+		if (index == digits.size())
 		{
 			result.push_back(path);
 			return;
 		}
 		string str = strs[digits[index] - '0'];
-		for(int i = 0; i < str.size(); i++)
+		for (int i = 0; i < str.size(); i++)
 		{
 			path.push_back(str[i]);
 			dfs(digits, index + 1);
@@ -1132,6 +1132,242 @@ public:
 	{
 		dfs(digits, 0);
 		return result;
+	}
+};
+class Solution41
+{
+public:
+	vector<vector<int>> threeSum(vector<int> &nums)
+	{
+		vector<vector<int>> result;
+		sort(nums.begin(), nums.end());
+		for (int i = 0; i < nums.size() - 2; i++)
+		{
+			if (i > 0 && nums[i] == nums[i - 1])
+				continue;
+			int j = i + 1, k = nums.size() - 1;
+			while (j < k)
+			{
+				if (j > i + 1 && nums[j] == nums[j - 1])
+				{
+					j++;
+					continue;
+				}
+				if (k < nums.size() - 1 && nums[k] == nums[k + 1])
+				{
+					k--;
+					continue;
+				}
+				int sum = nums[i] + nums[j] + nums[k];
+				if (sum > 0)
+					k--;
+				else if (sum < 0)
+					j++;
+				else
+				{
+					result.push_back({nums[i], nums[j], nums[k]});
+					j++;
+					k--;
+				}
+			}
+		}
+		return result;
+	}
+};
+class Solution42
+{
+public:
+	int maxArea(vector<int> &height)
+	{
+		int result = INT_MIN;
+		int i = 0, j = height.size() - 1;
+		while (i < j)
+		{
+			int s = min(height[i], height[j]) * (j - i);
+			result = max(result, s);
+			if (height[i] < height[j])
+				i++;
+			else
+				j--;
+		}
+		return result;
+	}
+};
+class Solution43
+{
+public:
+	bool is_True(string s)
+	{
+		for (int i = 0, j = s.size(); i < j; i++, j--)
+		{
+			if (s[i] != s[j])
+				return false;
+		}
+		return true;
+	}
+	string longestPalindrome(string s)
+	{
+		string result = "";
+		for (int i = 0; i < s.size(); i++)
+		{
+			for (int j = i; j < s.size(); j++)
+			{
+				string tmp = s.substr(i, j - i + 1);
+				cout << tmp;
+				if (is_True(tmp) && tmp.size() > result.size())
+					result = tmp;
+			}
+			cout << endl;
+		}
+		return result;
+	}
+};
+class Solution43
+{
+public:
+	string longestPalindrome(string s)
+	{
+		string result = "";
+		for (int i = 0; i < s.size(); i++)
+		{
+			for (int j = 0; j <= 1; j++)
+			{
+				int left = i, right = i + j;
+				while (left >= 0 && right < s.size() && s[left] == s[right])
+				{
+					left--;
+					right++;
+				}
+				left++;
+				right--;
+				if (right - left + 1 > result.size())
+					result = s.substr(left, right - left + 1);
+			}
+		}
+		return result;
+	}
+};
+class Solution44
+{
+public:
+	int lengthOfLongestSubstring(string s)
+	{
+		int result = 0;
+		for (int i = 0; i < s.size(); i++)
+		{
+			unordered_set<char> uset;
+			for (int j = i; j < s.size(); j++)
+			{
+				if (uset.find(s[j]) != uset.end())
+					break;
+				uset.insert(s[j]);
+				if (j - i + 1 > result)
+					result = j - i + 1;
+			}
+		}
+		return result;
+	}
+};
+class Solution45
+{
+public:
+	int lengthOfLongestSubstring(string s)
+	{
+		int result = 0;
+		int start = 0, end = 0;
+		unordered_map<char, int> umap;
+		while (start <= end && end < s.size())
+		{
+			if (umap.find(s[end]) != umap.end())
+			{
+				start = max(start, umap[s[end]]);
+			}
+			umap[s[end]] = end + 1;
+			result = max(result, end - start + 1);
+			end++;
+		}
+		return result;
+	}
+};
+class Solution46
+{
+public:
+	long long getNum(ListNode *l)
+	{
+		long long result = 0, count = 1;
+		ListNode *cur = l;
+		while (cur)
+		{
+			result += cur->val * count;
+			count *= 10;
+			cur = cur->next;
+		}
+		return result;
+	}
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+	{
+		long long result = getNum(l1) + getNum(l2);
+		ListNode *head = new ListNode(result % 10);
+		ListNode *cur = head;
+		while (result / 10)
+		{
+			result /= 10;
+			cur->next = new ListNode(result % 10);
+			cur = cur->next;
+		}
+		return head;
+	}
+};
+class Solution47
+{
+public:
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+	{
+		int count = 0; // 进位
+		ListNode *head = new ListNode(-1);
+		ListNode *cur = head;
+		while (l1 && l2)
+		{
+			int val1 = (l1 == NULL) ? 0 : l1->val;
+			int val2 = (l2 == NULL) ? 0 : l2->val;
+			int sum = val1 + val2;
+			count = sum / 10;
+			cur->next = new ListNode(sum % 10);
+			cur = cur->next;
+			if (l1->next)
+				l1 = l1->next;
+			if (l2->next)
+				l2 = l2->next;
+		}
+		if (count)
+			cur->next = new ListNode(1);
+		return head->next;
+	}
+};
+class Solution48
+{
+public:
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+	{
+		int count = 0; // 进位
+		ListNode *head = new ListNode(-1);
+		ListNode *cur = head;
+		while (l1 || l2)
+		{
+			int val1 = (l1 == NULL) ? 0 : l1->val;
+			int val2 = (l2 == NULL) ? 0 : l2->val;
+			int sum = val1 + val2 + count;
+			count = sum / 10;
+			cur->next = new ListNode(sum % 10);
+			cur = cur->next;
+			if (l1)
+				l1 = l1->next;
+			if (l2)
+				l2 = l2->next;
+		}
+		if (count)
+			cur->next = new ListNode(1);
+		return head->next;
 	}
 };
 int main()
