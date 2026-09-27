@@ -1370,6 +1370,161 @@ public:
 		return head->next;
 	}
 };
+class Solution49
+{
+private:
+	int offset[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+	int result = false;
+
+public:
+	void dfs(vector<vector<char>> &board, string word, int index, int x, int y, vector<vector<bool>> &visited)
+	{
+		if (index == word.size() - 1)
+		{
+			result = true;
+			return;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= board.size() || nexty < 0 || nexty >= board[0].size())
+				continue;
+			if (board[nextx][nexty] == word[index + 1] && visited[nextx][nexty] == false)
+			{
+				visited[nextx][nexty] = true;
+				dfs(board, word, index + 1, nextx, nexty, visited);
+				visited[nextx][nexty] = false;
+			}
+		}
+	}
+	bool exist(vector<vector<char>> &board, string word)
+	{
+		vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(), false));
+		for (int i = 0; i < board.size(); i++)
+		{
+			for (int j = 0; j < board[0].size(); j++)
+			{
+				if (board[i][j] == word[0])
+				{
+					visited[i][j] = true;
+					dfs(board, word, 0, i, j, visited);
+					visited[i][j] = false;
+				}
+			}
+		}
+		return result;
+	}
+};
+class Solution50
+{
+public:
+	TreeNode *mergeTrees(TreeNode *root1, TreeNode *root2)
+	{
+		if (!root1 && !root2)
+			return NULL;
+		else if (!root1 && root2)
+			return root2;
+		else if (root1 && !root2)
+			return root1;
+		root1->val += root2->val;
+		root1->left = mergeTrees(root1->left, root2->left);
+		root1->right = mergeTrees(root1->right, root2->right);
+		return root1;
+	}
+};
+class Solution51
+{
+public:
+	int maxDepth(TreeNode *root)
+	{
+		if (!root)
+			return 0;
+		int left = maxDepth(root->left);
+		int right = maxDepth(root->right);
+		return max(left, right) + 1;
+	}
+};
+class Solution52
+{
+public:
+	bool isTrue(TreeNode *left, TreeNode *right)
+	{
+		if (!left && !right)
+			return true;
+		else if ((!left && right) || (left && !right))
+			return false;
+		if (left->val != right->val)
+			return false;
+
+		if (!isTrue(left->left, right->right))
+			return false;
+		if (!isTrue(left->right, right->left))
+			return false;
+		return true;
+	}
+	bool isSymmetric(TreeNode *root) { return isTrue(root->left, root->right); }
+};
+class Solution53
+{
+private:
+	vector<int> nums;
+
+public:
+	void getNums(TreeNode *root)
+	{
+		if (root == NULL)
+			return;
+		getNums(root->left);
+		nums.push_back(root->val);
+		getNums(root->right);
+	}
+	bool isValidBST(TreeNode *root)
+	{
+		getNums(root);
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (i > 0 && nums[i] <= nums[i - 1])
+				return false;
+		}
+		return true;
+	}
+};
+class Solution54
+{
+public:
+	int numTrees(int n)
+	{
+		vector<int> dp(n + 1, 0);
+		dp[0] = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 0; j <= i - 1; j++)
+				dp[i] += dp[j] * dp[i - 1 - j];
+		}
+		return dp[n];
+	}
+};
+class Solution55
+{
+private:
+	vector<int> result;
+
+public:
+	void getNums(TreeNode *root)
+	{
+		if (!root)
+			return;
+		getNums(root->left);
+		result.push_back(root->val);
+		getNums(root->right);
+	}
+	vector<int> inorderTraversal(TreeNode *root)
+	{
+		getNums(root);
+		return result;
+	}
+};
 int main()
 {
 	Solution32 s;
