@@ -1,0 +1,133 @@
+<mxfile host="65bd71144e">
+    <diagram id="-ix5mRHAFYm4_XzdLLyp" name="第 1 页">
+        <mxGraphModel dx="574" dy="753" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-10" edge="1" parent="1" source="-ER0LIWan8Mb2m8Ptv9a-2" style="edgeStyle=none;html=1;" target="-ER0LIWan8Mb2m8Ptv9a-9" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-11" connectable="0" parent="-ER0LIWan8Mb2m8Ptv9a-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value=".i文件" vertex="1">
+                    <mxGeometry relative="1" x="-0.1454" y="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-2" parent="1" style="whiteSpace=wrap;html=1;" value="预处理" vertex="1">
+                    <mxGeometry height="60" width="120" x="189" y="119" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-4" edge="1" parent="1" source="-ER0LIWan8Mb2m8Ptv9a-3" style="edgeStyle=none;html=1;" target="-ER0LIWan8Mb2m8Ptv9a-2" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value=".c/.h文件输入" vertex="1">
+                    <mxGeometry height="30" width="60" x="217" y="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1、#include 把头文件内容原样插入" vertex="1">
+                    <mxGeometry height="15" width="246" x="320" y="131" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="2、#define: 宏替换" vertex="1">
+                    <mxGeometry height="15" width="166" x="323" y="154" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="3、#if #ifdef #ifndef：条件编译" vertex="1">
+                    <mxGeometry height="24" width="209.5" x="331.5" y="174" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-13" edge="1" parent="1" source="-ER0LIWan8Mb2m8Ptv9a-9" style="edgeStyle=none;html=1;" target="-ER0LIWan8Mb2m8Ptv9a-12" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-14" connectable="0" parent="-ER0LIWan8Mb2m8Ptv9a-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value=".s" vertex="1">
+                    <mxGeometry relative="1" x="-0.2675" y="-2" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-9" parent="1" style="whiteSpace=wrap;html=1;" value="编译" vertex="1">
+                    <mxGeometry height="60" width="120" x="189" y="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-17" edge="1" parent="1" source="-ER0LIWan8Mb2m8Ptv9a-12" style="edgeStyle=none;html=1;" target="-ER0LIWan8Mb2m8Ptv9a-16" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-18" connectable="0" parent="-ER0LIWan8Mb2m8Ptv9a-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value=".o目标文件" vertex="1">
+                    <mxGeometry relative="1" x="-0.2787" y="-1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-12" parent="1" style="whiteSpace=wrap;html=1;" value="汇编" vertex="1">
+                    <mxGeometry height="60" width="120" x="189" y="333" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="把C代码翻译成汇编" vertex="1">
+                    <mxGeometry height="27" width="160" x="323" y="237" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-30" edge="1" parent="1" source="-ER0LIWan8Mb2m8Ptv9a-16" style="edgeStyle=none;html=1;" target="-ER0LIWan8Mb2m8Ptv9a-29" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-16" parent="1" style="whiteSpace=wrap;html=1;" value="链接" vertex="1">
+                    <mxGeometry height="60" width="120" x="189" y="441" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="通常为ELF格式" vertex="1">
+                    <mxGeometry height="24" width="93" x="374" y="396" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-20" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+                    <mxGeometry relative="1" width="100" as="geometry">
+                        <Array as="points"/>
+                        <mxPoint x="277" y="410" as="sourcePoint"/>
+                        <mxPoint x="377" y="410" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="把汇编指令翻译成机器码" vertex="1">
+                    <mxGeometry height="24" width="139" x="344" y="345" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-23" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" value="" vertex="1">
+                    <mxGeometry height="165" width="20" x="483" y="282" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value=".text:函数代码" vertex="1">
+                    <mxGeometry height="33" width="98" x="503" y="259" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value=".data:已初始化的全局/静态变量" vertex="1">
+                    <mxGeometry height="34" width="111" x="507" y="299" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value=".bss:未初始化或初始化为0的全局/静态变量" vertex="1">
+                    <mxGeometry height="30" width="125" x="509" y="333" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value=".rodata:常量" vertex="1">
+                    <mxGeometry height="33" width="73" x="509" y="363" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="符号表：函数名、全局变量等、&lt;br&gt;&lt;br&gt;&lt;div&gt;重定向表：记录哪些地方地址还没填、需要链接器以后填&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="24" width="275" x="509" y="417" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="可执行文件.elf、.exe、.axf" vertex="1">
+                    <mxGeometry height="24" width="160" x="169" y="538" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-31" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="-ER0LIWan8Mb2m8Ptv9a-32" value="">
+                    <mxGeometry relative="1" width="100" as="geometry">
+                        <Array as="points"/>
+                        <mxPoint x="309" y="479" as="sourcePoint"/>
+                        <mxPoint x="413.56" y="526.88" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-32" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" value="" vertex="1">
+                    <mxGeometry height="206" width="20" x="418" y="471" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-34" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;符号解析：&lt;/span&gt;&lt;/div&gt;找到每个函数的定义、把调用处的符号引用和定义匹配起来。" vertex="1">
+                    <mxGeometry height="41" width="337" x="447" y="468" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-35" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;段合并：&lt;br&gt;把所有.o的.text合并成一个.text、.data合并成.data、.bss合并成.bss&lt;/span&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="41" width="373" x="447" y="517" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-37" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;地址分配与重定位：&lt;br&gt;根据链接脚本决定放Flash的哪个地址、变量放RAM的哪个地址、把之前.o里占位的地址填成最终地址&lt;/span&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="41" width="373" x="450" y="571" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-39" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="库处理：只提取被用到的.o,嵌入式通常为静态链接，把用到的库代码直接放进最终固件" vertex="1">
+                    <mxGeometry height="34" width="334" x="450" y="623" as="geometry"/>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-41" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;rounded=1;startSize=8;endSize=8;" value="">
+                    <mxGeometry relative="1" width="100" as="geometry">
+                        <Array as="points"/>
+                        <mxPoint x="102" y="417" as="sourcePoint"/>
+                        <mxPoint x="202" y="417" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="-ER0LIWan8Mb2m8Ptv9a-43" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="静态库.a&lt;br&gt;动态库.so&lt;br&gt;启动脚本&lt;br&gt;链接脚本" vertex="1">
+                    <mxGeometry height="33" width="67" x="15" y="403" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
