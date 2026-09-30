@@ -1525,6 +1525,101 @@ public:
 		return result;
 	}
 };
+class Solution56
+{
+public:
+	int findUnsortedSubarray(vector<int> &nums)
+	{
+		vector<int> record(nums.begin(), nums.end());
+		sort(record.begin(), record.end());
+		int start, end;
+		for (start = 0; start < record.size(); start++)
+		{
+			if (record[start] != nums[start])
+				break;
+		}
+		for (end = record.size() - 1; end >= 0; end--)
+		{
+			if (record[end] != nums[end])
+				break;
+		}
+		return max(0, end - start + 1);
+	}
+};
+class Solution57
+{
+private:
+	int offset[2][2] = {{0, 1}, {1, 0}};
+	int result = INT_MAX;
+
+public:
+	void dfs(vector<vector<int>> &grid, vector<vector<bool>> &visited, int x, int y, int sum)
+	{
+		sum += grid[x][y];
+		if (x == grid.size() - 1 && y == grid[0].size() - 1)
+		{
+			result = min(result, sum);
+			return;
+		}
+
+		for (int i = 0; i < 2; i++)
+		{
+			int nextx = x + offset[i][0];
+			int nexty = y + offset[i][1];
+			if (nextx < 0 || nextx >= grid.size() || nexty < 0 && nexty >= grid[0].size())
+				continue;
+			if (!visited[nextx][nexty])
+				dfs(grid, visited, nextx, nexty, sum);
+		}
+	}
+	int minPathSum(vector<vector<int>> &grid)
+	{
+		vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size()));
+		int sum = 0;
+		dfs(grid, visited, 0, 0, sum);
+		return result;
+	}
+};
+class Solution58
+{
+public:
+	int minPathSum(vector<vector<int>> &grid)
+	{
+		vector<vector<int>> dp(grid.size(), vector<int>(grid[0].size(), 0));
+		int sum = 0;
+		for (int i = 0; i < grid.size(); i++)
+		{
+			sum += grid[i][0];
+			dp[i][0] = sum;
+		}
+		sum = 0;
+		for (int j = 0; j < grid[0].size(); j++)
+		{
+			sum += grid[0][j];
+			dp[0][j] = sum;
+		}
+		for (int i = 1; i < grid.size(); i++)
+		{
+			for (int j = 1; j < grid[0].size(); j++)
+				dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+		}
+		return dp[grid.size() - 1][grid[0].size() - 1];
+	}
+};
+class Solution59
+{
+public:
+	int uniquePaths(int m, int n)
+	{
+		vector<vector<int>> dp(m, vector<int>(n, 1));
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n; j++)
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+		}
+		return dp[m - 1][n - 1];
+	}
+};
 int main()
 {
 	Solution32 s;
