@@ -1620,6 +1620,71 @@ public:
 		return dp[m - 1][n - 1];
 	}
 };
+class Solution60
+{
+public:
+	vector<vector<int>> merge(vector<vector<int>> &intervals)
+	{
+		vector<vector<int>> result;
+		int n = intervals.size();
+		sort(intervals.begin(), intervals.end());
+		for (int i = 0; i < n;)
+		{
+			int right = intervals[i][1];
+			int j = i;
+			for (; j < n; j++)
+			{
+				if (right < intervals[j][0])
+					break;
+				right = max(right, intervals[j][1]);
+			}
+			int left = intervals[i][0];
+			result.push_back({left, right});
+			i = j;
+		}
+		return result;
+	}
+};
+class Solution61
+{
+public:
+	bool canJump(vector<int> &nums)
+	{
+		int n = nums.size();
+		vector<bool> visited(n, false);
+		visited[0] = true;
+		for (int i = 0; i < n; i++)
+		{
+			if (visited[n - 1])
+				return true;
+			if (!visited[i])
+				continue;
+			int rap = nums[i];
+			for (int j = i; j < n && j <= i + rap; j++)
+				visited[j] = true;
+		}
+		return false;
+	}
+};
+class Solution62
+{
+public:
+	int maxSubArray(vector<int> &nums)
+	{
+		int n = nums.size();
+		vector<int> dp(n, 0);
+		dp[0] = nums[0];
+		for (int i = 1; i < n; i++)
+		{
+			if (dp[i - 1] > 0)
+				dp[i] = dp[i - 1] + nums[i];
+			else
+				dp[i] = nums[i];
+		}
+		sort(dp.begin(), dp.end());
+		return dp[n - 1];
+	}
+};
 int main()
 {
 	Solution32 s;
