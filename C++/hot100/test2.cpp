@@ -129,3 +129,103 @@ public:
 		return nums[nums.size() - k];
 	}
 };
+
+struct TreeNode
+{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode() : val(0), left(nullptr), right(nullptr) {}
+	TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+	TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+class Solution05
+{
+public:
+	TreeNode *invertTree(TreeNode *root)
+	{
+		if (root == NULL)
+			return NULL;
+		swap(root->left, root->right);
+		invertTree(root->left);
+		invertTree(root->right);
+		return root;
+	}
+};
+
+class Solution06
+{
+public:
+	TreeNode *dfs(vector<int> nums, int left, int right)
+	{
+		if (left > right)
+			return NULL;
+		int mid = (left + right) / 2;
+		TreeNode *root = new TreeNode(nums[mid]);
+		root->left = dfs(nums, left, mid - 1);
+		root->right = dfs(nums, mid + 1, right);
+		return root;
+	}
+	TreeNode *sortedArrayToBST(vector<int> &nums)
+	{
+		return dfs(nums, 0, nums.size() - 1);
+	}
+};
+class Solution07
+{
+private:
+	int result = -1;
+	;
+
+public:
+	void getSmall(TreeNode *root, int &k)
+	{
+		if (root == NULL)
+			return;
+		getSmall(root->left, k);
+		k--;
+		if (k == 0)
+			result = root->val;
+		else if (k < 0)
+			return;
+		getSmall(root->right, k);
+	}
+	int kthSmallest(TreeNode *root, int k)
+	{
+		getSmall(root, k);
+		return result;
+	}
+};
+class Solution08
+{
+public:
+	vector<int> getNums(TreeNode *root)
+	{
+		if (!root)
+			return {};
+		vector<int> nums;
+		queue<TreeNode *> que;
+		que.push(root);
+		while (!que.empty())
+		{
+			int size = que.size();
+			for (int i = 0; i < size; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				if (i == size - 1)
+					nums.push_back(it->val);
+				if (it->left)
+					que.push(it->left);
+				if (it->right)
+					que.push(it->right);
+			}
+		}
+		return nums;
+	}
+	vector<int> rightSideView(TreeNode *root)
+	{
+		vector<int> result = getNums(root);
+		return result;
+	}
+};
