@@ -229,3 +229,147 @@ public:
 		return result;
 	}
 };
+class Solution09
+{
+public:
+	int orangesRotting(vector<vector<int>> &grid)
+	{
+		int m = grid.size(), n = grid[0].size();
+		queue<pair<int, int>> que;
+		int normal_count = 0, result = 0;
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				if (grid[i][j] == 1)
+					normal_count++;
+				else if (grid[i][j] == 2)
+					que.push({i, j});
+			}
+		}
+		while (normal_count > 0 && !que.empty())
+		{
+			result++;
+			int size = que.size();
+			for (int i = 0; i < size; i++)
+			{
+				auto it = que.front();
+				que.pop();
+				int x = it.first, y = it.second;
+				if (x - 1 >= 0 && grid[x - 1][y] == 1)
+				{
+					grid[x - 1][y] = 2;
+					que.push({x - 1, y});
+					normal_count--;
+				}
+				if (x + 1 < m && grid[x + 1][y] == 1)
+				{
+					grid[x + 1][y] = 2;
+					que.push({x + 1, y});
+					normal_count--;
+				}
+				if (y - 1 >= 0 && grid[x][y - 1] == 1)
+				{
+					grid[x][y - 1] = 2;
+					que.push({x, y - 1});
+					normal_count--;
+				}
+				if (y + 1 < n && grid[x][y + 1] == 1)
+				{
+					grid[x][y + 1] = 2;
+					que.push({x, y + 1});
+					normal_count--;
+				}
+				cout << normal_count << " ";
+			}
+		}
+		cout << endl
+			 << normal_count;
+		if (normal_count > 0)
+			return -1;
+		else
+			return result;
+	}
+};
+class Solution10
+{
+public:
+	bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+	{
+		unordered_map<int, int> umap;
+		for (int i = 0; i < prerequisites.size(); i++)
+		{
+			umap[prerequisites[i][0]] = prerequisites[i][1];
+		}
+		for (int i = 0; i < numCourses; i++)
+		{
+			int val = 0;
+			if (umap.find(i) != umap.end())
+				val = umap[i];
+			else
+				continue;
+			while (umap.find(val) != umap.end())
+			{
+				if (umap[val] == i)
+					return false;
+				val = umap[val];
+			}
+		}
+		return true;
+	}
+};
+class Solution11
+{
+public:
+	bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+	{
+		vector<int> inputDeg(numCourses, 0);
+		unordered_map<int, vector<int>> umap;
+		for (int i = 0; i < prerequisites.size(); i++)
+		{
+			inputDeg[prerequisites[i][0]]++;
+			umap[prerequisites[i][1]].push_back(prerequisites[i][0]);
+		}
+		queue<int> que;
+		for (int i = 0; i < numCourses; i++)
+		{
+			if (inputDeg[i] == 0)
+				que.push(i);
+		}
+		int count = 0;
+		while (!que.empty())
+		{
+			auto it = que.front();
+			que.pop();
+			count++;
+			if (umap.find(it) == umap.end())
+				continue;
+			for (int i = 0; i < umap[it].size(); i++)
+			{
+				inputDeg[umap[it][i]]--;
+				if (inputDeg[umap[it][i]] == 0)
+					que.push(umap[it][i]);
+			}
+		}
+		return count == numCourses;
+	}
+};
+class Solution12
+{
+public:
+	TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+	{
+		if (root == NULL || root == p || root == q)
+			return root;
+		TreeNode *left = lowestCommonAncestor(root->left, p, q);
+		TreeNode *right = lowestCommonAncestor(root->right, p, q);
+		if (left && right)
+			return root;
+		else if (left && !right)
+			return left;
+		else if (!left && right)
+			return right;
+		else
+			return NULL;
+	}
+};
