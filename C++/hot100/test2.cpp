@@ -373,3 +373,108 @@ public:
 			return NULL;
 	}
 };
+class Solution12
+{
+public:
+	int searchInsert(vector<int> &nums, int target)】
+	{
+		int left = 0, right = nums.size() - 1;
+		while (left <= right)
+		{
+			int mid = (left + right) / 2;
+			if (nums[mid] < target)
+				left = mid + 1;
+			else
+				right = mid - 1;
+		}
+		return left;
+	}
+};
+class Solution13
+{
+private:
+	vector<vector<string>> result;
+	vector<string> path;
+
+public:
+	bool isTrue(string s)
+	{
+		for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+		{
+			if (s[i] != s[j])
+				return false;
+		}
+		return true;
+	}
+	void bt(string s, int start_index)
+	{
+		if (s.size() == start_index)
+		{
+			result.push_back(path);
+			return;
+		}
+		for (int i = start_index; i < s.size(); i++)
+		{
+			string tmp = s.substr(start_index, i - start_index + 1);
+			if (!isTrue(tmp))
+				continue;
+			path.push_back(tmp);
+			bt(s, i + 1);
+			path.pop_back();
+		}
+	}
+	vector<vector<string>> partition(string s)
+	{
+		bt(s, 0);
+		return result;
+	}
+};
+class Solution14
+{
+public:
+	bool searchMatrix(vector<vector<int>> &matrix, int target)
+	{
+		int m = matrix.size(), n = matrix[0].size();
+		int l = 0, r = m * n - 1;
+		while (l <= r)
+		{
+			int mid = (l + r) / 2, val = matrix[mid / n][mid % n];
+			if (val < target)
+				l = mid + 1;
+			else if (val > target)
+				r = mid - 1;
+			else
+				return true;
+		}
+		return false;
+	}
+};
+class Solution15
+{
+public:
+	int search(vector<int> &nums, int target)
+	{
+		int left = 0, right = nums.size() - 1;
+		while (left <= right)
+		{
+			int mid = (left + right) / 2;
+			if (nums[mid] == target)
+				return mid;
+			if (nums[mid] >= nums[left])
+			{
+				if (nums[left] <= target && nums[mid] > target)
+					right = mid - 1;
+				else
+					left = mid + 1;
+			}
+			else
+			{
+				if (nums[mid] < target && nums[right] >= target)
+					left = mid + 1;
+				else
+					right = mid - 1;
+			}
+		}
+		return -1;
+	}
+};
