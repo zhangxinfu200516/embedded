@@ -376,7 +376,7 @@ public:
 class Solution12
 {
 public:
-	int searchInsert(vector<int> &nums, int target)】
+	int searchInsert(vector<int> &nums, int target)
 	{
 		int left = 0, right = nums.size() - 1;
 		while (left <= right)
@@ -476,5 +476,143 @@ public:
 			}
 		}
 		return -1;
+	}
+};
+class Solution16
+{
+public:
+	int jump(vector<int> &nums)
+	{
+		int end = 0, maxPos = 0, steps = 0;
+		for (int i = 0; i < nums.size() - 1; i++)
+		{
+			maxPos = max(maxPos, i + nums[i]);
+			if (i == end)
+			{
+				end = maxPos;
+				steps++;
+			}
+		}
+		return steps;
+	}
+};
+class Solution17
+{
+public:
+	vector<int> partitionLabels(string s)
+	{
+		vector<int> result;
+		unordered_map<char, int> umap;
+		for (int i = 0; i < s.size(); i++)
+			umap[s[i]] = i;
+		int start_index = 0, max_index = 0;
+		for (int i = 0; i < s.size(); i++)
+		{
+			int val = umap[s[i]];
+			if (max_index < val)
+				max_index = val;
+			if (i == max_index)
+			{
+				result.push_back(max_index - start_index + 1);
+				start_index = i + 1;
+			}
+		}
+		return result;
+	}
+};
+class Solution18
+{
+public:
+	vector<vector<int>> generate(int numRows)
+	{
+		vector<vector<int>> dp;
+		for (int i = 1; i <= numRows; i++)
+		{
+			vector<int> nums(i, 0);
+			nums[0] = 1;
+			if (i > 1)
+				nums[i - 1] = 1;
+			dp.push_back(nums);
+		}
+		for (int i = 2; i < numRows; i++)
+		{
+			for (int j = 1; j < i; j++)
+				dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+		}
+		return dp;
+	}
+};
+class Solution19
+{
+public:
+	int rob(vector<int> &nums)
+	{
+		int n = nums.size();
+		if (n == 1)
+			return nums[0];
+		vector<int> dp(nums.size(), 0);
+		dp[0] = nums[0];
+		dp[1] = max(nums[0], nums[1]);
+		for (int i = 2; i < n; i++)
+			dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]);
+		return dp[n - 1];
+	}
+};
+class Solution20
+{
+public:
+	int coinChange(vector<int> &coins, int amount)
+	{
+		vector<int> dp(amount + 1, INT_MAX);
+		dp[0] = 0;
+		for (int i = 0; i < coins.size(); i++)
+		{
+			for (int j = coins[i]; j <= amount; j++)
+			{
+				if (dp[j - coins[i]] != INT_MAX)
+					dp[j] = min(dp[j], dp[j - coins[i]] + 1);
+			}
+		}
+		return dp[amount] == INT_MAX ? -1 : dp[amount];
+	}
+};
+class Solution21
+{
+public:
+	bool wordBreak(string s, vector<string> &wordDict)
+	{
+		unordered_set<string> uset(wordDict.begin(), wordDict.end());
+		int n = s.size();
+		vector<bool> dp(n + 1, false);
+		dp[0] = true;
+		for (int i = 0; i < n; i++)
+		{
+			if (dp[i] == false)
+				continue;
+			for (int j = i + 1; j <= n; j++)
+			{
+				if (uset.find(s.substr(i, j - i)) != uset.end())
+					dp[j] = true;
+			}
+		}
+		return dp[n];
+	}
+};
+class Solution22
+{
+public:
+	int maxProduct(vector<int> &nums)
+	{
+		int result = INT_MIN;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			int val = 1;
+			for (int j = i; j < nums.size(); j++)
+			{
+				val *= nums[j];
+				result = max(result, val);
+			}
+		}
+		return result;
 	}
 };
