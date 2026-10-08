@@ -739,3 +739,158 @@ public:
 		return result;
 	}
 };
+class Solution27
+{
+public:
+	void rotate(vector<int> &nums, int k)
+	{
+		vector<int> temp = nums;
+		int i = 0, j = 0, n = nums.size();
+		k %= n;
+		if (k == 0)
+			return;
+		for (i = n - k; i < n; i++, j++)
+			nums[j] = temp[i];
+		for (i = 0; i < n - k; i++, j++)
+			nums[j] = temp[i];
+	}
+};
+class Solution28
+{
+public:
+	void setZeroes(vector<vector<int>> &matrix)
+	{
+		int m = matrix.size(), n = matrix[0].size();
+		vector<pair<int, int>> record;
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				if (matrix[i][j] == 0)
+					record.push_back({i, j});
+			}
+		}
+		for (auto it : record)
+		{
+			int x = it.first, y = it.second;
+			for (int j = 0; j < n; j++)
+				matrix[x][j] = 0;
+			for (int i = 0; i < m; i++)
+				matrix[i][y] = 0;
+		}
+	}
+};
+class Solution29
+{
+public:
+	vector<int> spiralOrder(vector<vector<int>> &matrix)
+	{
+		vector<int> result;
+		int m = matrix.size(), n = matrix[0].size();
+		int count = min(m, n) / 2;
+		if (count == 0)
+		{
+			for (int i = 0; i < m; i++)
+			{
+				for (int j = 0; j < n; j++)
+					result.push_back(matrix[i][j]);
+			}
+			return result;
+		}
+		int startx = 0, starty = 0, lengthx = m, lengthy = n;
+		while (count--)
+		{
+			int i = startx, j = starty;
+			for (; j < starty + lengthy - 1; j++)
+				result.push_back(matrix[i][j]);
+			for (j = starty + lengthy - 1; i < startx + lengthx - 1; i++)
+				result.push_back(matrix[i][j]);
+			for (i = startx + lengthx - 1; j > starty; j--)
+				result.push_back(matrix[i][j]);
+			for (j = starty; i > startx; i--)
+				result.push_back(matrix[i][j]);
+			startx++;
+			starty++;
+			lengthx -= 2;
+			lengthy -= 2;
+		}
+		int val = m * n - result.size();
+		cout << val;
+		for (int i = startx, j = starty; val > 0; val--)
+		{
+			result.push_back(matrix[i][j]);
+			if (m <= n)
+				j++;
+			else
+				i++;
+		}
+		return result;
+	}
+};
+struct ListNode
+{
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
+class Solution30
+{
+public:
+	ListNode *detectCycle(ListNode *head)
+	{
+		ListNode *fast = head, *slow = head;
+		while (1)
+		{
+			if (fast == NULL || fast->next == NULL)
+				return NULL;
+			fast = fast->next->next;
+			slow = slow->next;
+			if (fast == slow)
+				break;
+		}
+		cout << fast->val;
+		fast = head;
+		while (fast != slow)
+		{
+			fast = fast->next;
+			slow = slow->next;
+		}
+		return fast;
+	}
+};
+class Solution31
+{
+public:
+	ListNode *swapPairs(ListNode *head)
+	{
+		ListNode *newHead = new ListNode(-1);
+		newHead->next = head;
+		ListNode *pre = newHead;
+		while (pre->next && pre->next->next)
+		{
+			ListNode *first = pre->next, *second = pre->next->next;
+			first->next = second->next;
+			second->next = first;
+			pre->next = second;
+			pre = first;
+		}
+		return newHead->next;
+	}
+};
+class Solution32
+{
+public:
+	bool hasCycle(ListNode *head)
+	{
+		unordered_set<ListNode *> uset;
+		ListNode *cur = head;
+		while (cur)
+		{
+			if (uset.count(cur) == 1)
+				return true;
+			uset.insert(cur);
+			cur = cur->next;
+		}
+		return false;
+	}
+};
