@@ -894,3 +894,106 @@ public:
 		return false;
 	}
 };
+class Node
+{
+public:
+	int val;
+	Node *next;
+	Node *random;
+
+	Node(int _val)
+	{
+		val = _val;
+		next = NULL;
+		random = NULL;
+	}
+};
+class Solution33
+{
+public:
+	Node *copyRandomList(Node *head)
+	{
+		if (head == NULL)
+			return NULL;
+		unordered_map<Node *, Node *> umap;
+		Node *cur = head;
+		while (cur)
+		{
+			umap[cur] = new Node(cur->val);
+			cur = cur->next;
+		}
+		cur = head;
+		while (cur)
+		{
+			if (cur->next != NULL)
+				umap[cur]->next = umap[cur->next];
+			if (cur->random != NULL)
+				umap[cur]->random = umap[cur->random];
+			cur = cur->next;
+		}
+		return umap[head];
+	}
+};
+class Solution34
+{
+public:
+	ListNode *sortList(ListNode *head)
+	{
+		if (head == NULL)
+			return {};
+		vector<int> nums;
+		ListNode *cur = head;
+		while (cur)
+		{
+			nums.push_back(cur->val);
+			cur = cur->next;
+		}
+		sort(nums.begin(), nums.end());
+		ListNode *newHead = new ListNode(nums[0]);
+		cur = newHead;
+		for (int i = 1; i < nums.size(); i++)
+		{
+			cur->next = new ListNode(nums[i]);
+			cur = cur->next;
+		}
+		return newHead;
+	}
+};
+class LRUCache
+{
+private:
+	int maxCapacity;
+	list<pair<int, int>> ls;
+	unordered_map<int, list<pair<int, int>>::iterator> umap;
+
+public:
+	LRUCache(int capacity)
+	{
+		maxCapacity = capacity;
+	}
+
+	int get(int key)
+	{
+		if (umap.find(key) == umap.end())
+			return -1;
+		ls.splice(ls.begin(), ls, umap[key]);
+		return umap[key]->second;
+	}
+
+	void put(int key, int value)
+	{
+		if (umap.find(key) != umap.end())
+		{
+			umap[key]->second = value;
+			ls.splice(ls.begin(), ls, umap[key]);
+			return;
+		}
+		ls.push_front({key, value});
+		umap[key] = ls.begin();
+		if (ls.size() > maxCapacity)
+		{
+			umap.erase(ls.back().first);
+			ls.pop_back();
+		}
+	}
+};
