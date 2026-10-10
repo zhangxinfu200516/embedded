@@ -997,3 +997,79 @@ public:
 		}
 	}
 };
+class Solution35
+{
+public:
+	int maximalSquare(vector<vector<char>> &matrix)
+	{
+		int m = matrix.size(), n = matrix[0].size(), result = 0;
+		vector<vector<int>> dp(m, vector<int>(n, 0));
+		for (int i = 0; i < m; i++)
+		{
+			if (matrix[i][0] == '1')
+				dp[i][0] = 1;
+			result = max(result, dp[i][0]);
+		}
+		for (int j = 0; j < n; j++)
+		{
+			if (matrix[0][j] == '1')
+				dp[0][j] = 1;
+			result = max(result, dp[0][j]);
+		}
+		for (int i = 1; i < m; i++)
+		{
+			for (int j = 1; j < n; j++)
+			{
+				if (matrix[i][j] == '1')
+					dp[i][j] = min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]}) + 1;
+				result = max(result, dp[i][j]);
+			}
+		}
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+				cout << dp[i][j] << " ";
+			cout << endl;
+		}
+		return result * result;
+	}
+};
+class Solution36
+{
+public:
+	int hammingDistance(int x, int y)
+	{
+		int val = x ^ y, result = 0;
+		while (val)
+		{
+			result += val % 2;
+			val /= 2;
+		}
+		return result;
+	}
+};
+class Solution37
+{
+public:
+	int findTargetSumWays(vector<int> &nums, int target)
+	{
+		int n = nums.size(), sum = 0;
+		for (auto num : nums)
+			sum += num;
+		int val = sum + target;
+		if (val % 2 || val < 0)
+			return 0;
+		val /= 2;
+		vector<int> dp(val + 1, 0);
+		dp[0] = 1;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			for (int j = val; j >= nums[i]; j--)
+				dp[j] = dp[j] + dp[j - nums[i]];
+			for (int j = 0; j <= val; j++)
+				cout << dp[j] << " ";
+			cout << endl;
+		}
+		return dp[val];
+	}
+};
