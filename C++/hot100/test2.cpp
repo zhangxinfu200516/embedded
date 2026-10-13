@@ -1073,3 +1073,26 @@ public:
 		return dp[val];
 	}
 };
+class Solution38
+{
+public:
+	double getResult(double n, int a)
+	{
+		int exp = a;
+		double base = n;
+		if(exp < 0)
+		{
+			exp *= -1;
+			base = 1.0 / base;
+		}
+		double result = 1.0;
+		while(exp)
+		{
+			if(exp % 2)
+				result *= base;
+			base *= base;
+			exp /= 2;
+		}
+		return result;
+	}
+};
