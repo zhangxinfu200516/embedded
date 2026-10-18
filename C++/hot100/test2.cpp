@@ -1080,18 +1080,47 @@ public:
 	{
 		int exp = a;
 		double base = n;
-		if(exp < 0)
+		if (exp < 0)
 		{
 			exp *= -1;
 			base = 1.0 / base;
 		}
 		double result = 1.0;
-		while(exp)
+		while (exp)
 		{
-			if(exp % 2)
+			if (exp % 2)
 				result *= base;
 			base *= base;
 			exp /= 2;
+		}
+		return result;
+	}
+};
+class Solution39
+{
+public:
+	vector<int> findAnagrams(string s, string p)
+	{
+		vector<char> word(26, 0), windows(26, 0);
+		if (p.size() > s.size())
+			return {};
+		for (int i = 0; i < p.size(); i++)
+		{
+			word[p[i] - 'a']++;
+			windows[s[i] - 'a']++;
+		}
+		int start = 0, end = p.size() - 1;
+		vector<int> result;
+		while (end < s.size())
+		{
+			if (word == windows)
+				result.push_back(start);
+			windows[s[start] - 'a']--;
+			start++;
+			end++;
+			if (end == s.size())
+				break;
+			windows[s[end] - 'a']++;
 		}
 		return result;
 	}
